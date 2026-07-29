@@ -3,7 +3,6 @@ package net.ralf2oo2.projecte.emc.mapper;
 import com.electronwill.nightconfig.core.CommentedConfig;
 import net.minecraft.item.ItemStack;
 import net.minecraft.recipe.SmeltingRecipeManager;
-import net.ralf2oo2.projecte.api.config.Configuration;
 import net.ralf2oo2.projecte.emc.IngredientMap;
 import net.ralf2oo2.projecte.emc.collector.MappingCollector;
 import net.ralf2oo2.projecte.emc.json.NSSItem;

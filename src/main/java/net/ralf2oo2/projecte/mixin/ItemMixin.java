@@ -20,8 +20,10 @@ public class ItemMixin implements CustomTooltipProvider {
         tooltip.add(originalTooltip);
 
         if(EMCHelper.doesItemHaveEmc(stack)) {
-            tooltip.add("EMC: " + EMCHelper.getEmcValue(stack.getItem()));
-            tooltip.add("Stack EMC: " + EMCHelper.getStackEmc(stack));
+            tooltip.add("EMC: " + EMCHelper.getEmcValue(stack));
+            if(stack.count > 1) {
+                tooltip.add("Stack EMC: " + EMCHelper.getStackEmc(stack));
+            }
         }
 
         return tooltip.toArray(new String[0]);

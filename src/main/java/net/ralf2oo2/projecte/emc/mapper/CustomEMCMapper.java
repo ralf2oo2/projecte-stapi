@@ -2,7 +2,6 @@ package net.ralf2oo2.projecte.emc.mapper;
 
 import com.electronwill.nightconfig.core.CommentedConfig;
 import net.ralf2oo2.projecte.ProjectE;
-import net.ralf2oo2.projecte.api.config.Configuration;
 import net.ralf2oo2.projecte.api.config.CustomEMCParser;
 import net.ralf2oo2.projecte.emc.collector.MappingCollector;
 import net.ralf2oo2.projecte.emc.json.NormalizedSimpleStack;

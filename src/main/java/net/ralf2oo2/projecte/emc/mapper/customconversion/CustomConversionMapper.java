@@ -5,7 +5,6 @@ import com.google.common.collect.ImmutableList;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import net.ralf2oo2.projecte.ProjectE;
-import net.ralf2oo2.projecte.api.config.Configuration;
 import net.ralf2oo2.projecte.emc.collector.MappingCollector;
 import net.ralf2oo2.projecte.emc.json.NSSFake;
 import net.ralf2oo2.projecte.emc.json.NSSItem;

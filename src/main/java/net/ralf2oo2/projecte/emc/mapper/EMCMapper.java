@@ -1,8 +1,6 @@
 package net.ralf2oo2.projecte.emc.mapper;
 
 import com.electronwill.nightconfig.core.CommentedConfig;
-import net.ralf2oo2.projecte.api.config.Configuration;
-import net.ralf2oo2.projecte.api.config.PrefixConfiguration;
 import net.ralf2oo2.projecte.emc.collector.MappingCollector;
 
 /**
@@ -32,11 +30,11 @@ public interface EMCMapper<T, V extends Comparable<V>> {
     boolean isAvailable();
 
     /**
-     * The method that allows the IEMCMapper to contribute to the EMC Mapping. Use the methods provided by the {@link IMappingCollector}.
+     * The method that allows the IEMCMapper to contribute to the EMC Mapping. Use the methods provided by the {@link MappingCollector}.
      * <br/>
      * Use the config object to generate a useful Configuration for your IEMCMapper.
      * <br/>
-     * The Configuration Object will be a {@link PrefixConfiguration},
+     * The Configuration Object will be a {@link CommentedConfig},
      * so you can use {@code ""} (Empty String) as a Category to write into the root-Category that is created for your IEMCMapper.
      * @param mapper
      * @param config

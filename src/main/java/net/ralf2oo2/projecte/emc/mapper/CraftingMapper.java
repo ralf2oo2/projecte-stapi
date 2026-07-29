@@ -12,7 +12,6 @@ import net.modificationstation.stationapi.api.tag.TagKey;
 import net.modificationstation.stationapi.impl.recipe.StationShapedRecipe;
 import net.modificationstation.stationapi.impl.recipe.StationShapelessRecipe;
 import net.ralf2oo2.projecte.ProjectE;
-import net.ralf2oo2.projecte.api.config.Configuration;
 import net.ralf2oo2.projecte.emc.IngredientMap;
 import net.ralf2oo2.projecte.emc.collector.MappingCollector;
 import net.ralf2oo2.projecte.emc.json.NSSFake;
@@ -80,7 +79,10 @@ public class CraftingMapper implements EMCMapper<NormalizedSimpleStack, Long>{
                         ingredientMap.addIngredient(NSSItem.create(containerItem), -1);
                     }
 
-                    ingredientMap.addIngredient(NSSItem.create(stack), 1);
+                    NormalizedSimpleStack normStack = createNormalizedStack(stack);
+                    if (normStack != null) {
+                        ingredientMap.addIngredient(normStack, 1);
+                    }
                 } catch (Exception e) {
                     ProjectE.LOGGER.fatal("Exception in CraftingMapper when parsing Recipe Ingredients: RecipeType: {}, Ingredient: {}", recipe.getClass().getName(), stack, e);
                     continue nextRecipe;
@@ -179,11 +181,28 @@ public class CraftingMapper implements EMCMapper<NormalizedSimpleStack, Long>{
                 if (itemOpt.isPresent()) {
                     ItemStack stack = itemOpt.get();
                     if (!StackUtil.isEmpty(stack)) {
-                        fixedInputs.add(stack.copy());
+                        ItemStack copy = stack.copy();
+                        if (copy.getDamage() == -1 || copy.getDamage() == 32767) {
+                            copy.setDamage(0);
+                        }
+                        fixedInputs.add(copy);
                     }
                 }
             }
         }
+    }
+
+    private NormalizedSimpleStack createNormalizedStack(ItemStack stack) {
+        if (StackUtil.isEmpty(stack)) return null;
+
+        int damage = stack.getDamage();
+        Item item = stack.getItem();
+
+        if (damage == -1 || damage == 32767 || (item != null && !item.hasSubtypes())) {
+            return NSSItem.create(item);
+        }
+
+        return NSSItem.create(stack);
     }
 
     private Item getReturnItem(ItemStack stack) {

@@ -5,7 +5,6 @@ import com.google.common.collect.Sets;
 import net.minecraft.item.ItemStack;
 import net.modificationstation.stationapi.api.registry.ItemRegistry;
 import net.modificationstation.stationapi.api.util.Identifier;
-import net.ralf2oo2.projecte.api.config.Configuration;
 import net.ralf2oo2.projecte.emc.collector.MappingCollector;
 import net.ralf2oo2.projecte.emc.json.NSSItem;
 import net.ralf2oo2.projecte.emc.json.NormalizedSimpleStack;
