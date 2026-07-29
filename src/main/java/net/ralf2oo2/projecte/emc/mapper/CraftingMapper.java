@@ -1,5 +1,6 @@
 package net.ralf2oo2.projecte.emc.mapper;
 
+import com.electronwill.nightconfig.core.CommentedConfig;
 import com.mojang.datafixers.util.Either;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -44,7 +45,7 @@ public class CraftingMapper implements EMCMapper<NormalizedSimpleStack, Long>{
     }
 
     @Override
-    public void addMappings(MappingCollector<NormalizedSimpleStack, Long> mapper, Configuration config) {
+    public void addMappings(MappingCollector<NormalizedSimpleStack, Long> mapper, CommentedConfig config) {
         recipeCount.clear();
         canNotMap.clear();
 

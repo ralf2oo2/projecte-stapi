@@ -1,13 +1,14 @@
 package net.ralf2oo2.projecte.emc.mapper;
 
+import com.electronwill.nightconfig.core.CommentedConfig;
 import net.minecraft.item.ItemStack;
 import net.modificationstation.stationapi.api.util.Namespace;
 import net.ralf2oo2.projecte.ProjectE;
-import net.ralf2oo2.projecte.api.config.Configuration;
 import net.ralf2oo2.projecte.emc.collector.MappingCollector;
 import net.ralf2oo2.projecte.emc.json.NSSItem;
 import net.ralf2oo2.projecte.emc.json.NormalizedSimpleStack;
 import net.ralf2oo2.projecte.impl.ConversionRegistryImpl;
+import net.ralf2oo2.projecte.util.ConfigHelper;
 import net.ralf2oo2.projecte.util.StackUtil;
 import org.jetbrains.annotations.NotNull;
 
@@ -69,7 +70,7 @@ public class APICustomEMCMapper implements EMCMapper<NormalizedSimpleStack, Long
     }
 
     @Override
-    public void addMappings(MappingCollector<NormalizedSimpleStack, Long> mapper, Configuration config) {
+    public void addMappings(MappingCollector<NormalizedSimpleStack, Long> mapper, CommentedConfig config) {
         Map<String, Integer> priorityMap = new HashMap<>();
         Set<String> modIdSet = new HashSet<>();
         modIdSet.addAll(customEMCforMod.keySet());
@@ -86,7 +87,7 @@ public class APICustomEMCMapper implements EMCMapper<NormalizedSimpleStack, Long
             {
                 valueCount += customNonItemEMCforMod.get(modId).size();
             }
-            priorityMap.put(modId, config.getInt(modId + "priority", "customEMCPriorities", PRIORITY_DEFAULT_VALUE, PRIORITY_MIN_VALUE, PRIORITY_MAX_VALUE, "Priority for Mod with ModId = " + modId + ". Values: " + valueCount));
+            priorityMap.put(modId, ConfigHelper.getClampedInt(config, modId + "priority", "customEMCPriorities", PRIORITY_DEFAULT_VALUE, PRIORITY_MIN_VALUE, PRIORITY_MAX_VALUE, "Priority for Mod with ModId = " + modId + ". Values: " + valueCount));
         }
         if (modIdSet.contains(null))
         {
@@ -99,7 +100,7 @@ public class APICustomEMCMapper implements EMCMapper<NormalizedSimpleStack, Long
             {
                 valueCount += customNonItemEMCforMod.get(null).size();
             }
-            priorityMap.put(null, config.getInt("modlessCustomEMCPriority", "", PRIORITY_DEFAULT_VALUE, PRIORITY_MIN_VALUE, PRIORITY_MAX_VALUE, "Priority for custom EMC values for which the ModId could not be determined. 0 to disable. Values: " + valueCount));
+            priorityMap.put(null, ConfigHelper.getClampedInt(config, "modlessCustomEMCPriority", "", PRIORITY_DEFAULT_VALUE, PRIORITY_MIN_VALUE, PRIORITY_MAX_VALUE, "Priority for custom EMC values for which the ModId could not be determined. 0 to disable. Values: " + valueCount));
         }
 
         List<String> modIds = new ArrayList<>(modIdSet);
@@ -141,7 +142,7 @@ public class APICustomEMCMapper implements EMCMapper<NormalizedSimpleStack, Long
         }
     }
 
-    private boolean isAllowedToSet(String modId, NormalizedSimpleStack stack, Long value, Configuration config) {
+    private boolean isAllowedToSet(String modId, NormalizedSimpleStack stack, Long value, CommentedConfig config) {
         String itemName;
         if (stack instanceof NSSItem item)
         {
@@ -150,7 +151,7 @@ public class APICustomEMCMapper implements EMCMapper<NormalizedSimpleStack, Long
             itemName = "IntermediateFakeItemsUsedInRecipes:";
         }
         String modForItem = itemName.substring(0, itemName.indexOf(':'));
-        String permission = config.getString(modForItem,"permissions."+modId,"both", String.format("Allow '%s' to set and or remove values for '%s'. Options: [both, set, remove, none]", modId, modForItem), new String[]{"both", "set", "remove", "none"});
+        String permission = ConfigHelper.getString(config, modForItem,"permissions."+modId,"both", String.format("Allow '%s' to set and or remove values for '%s'. Options: [both, set, remove, none]", modId, modForItem), new String[]{"both", "set", "remove", "none"});
         if (permission.equals("both"))
         {
             return true;

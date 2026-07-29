@@ -1,5 +1,6 @@
 package net.ralf2oo2.projecte.emc.mapper;
 
+import com.electronwill.nightconfig.core.CommentedConfig;
 import com.google.common.collect.Sets;
 import net.minecraft.item.ItemStack;
 import net.modificationstation.stationapi.api.registry.ItemRegistry;
@@ -8,6 +9,7 @@ import net.ralf2oo2.projecte.api.config.Configuration;
 import net.ralf2oo2.projecte.emc.collector.MappingCollector;
 import net.ralf2oo2.projecte.emc.json.NSSItem;
 import net.ralf2oo2.projecte.emc.json.NormalizedSimpleStack;
+import net.ralf2oo2.projecte.util.ConfigHelper;
 import net.ralf2oo2.projecte.util.ItemHelper;
 import net.ralf2oo2.projecte.util.StackUtil;
 
@@ -20,8 +22,8 @@ public class TagMapper implements EMCMapper<NormalizedSimpleStack, Long>{
     );
 
     @Override
-    public void addMappings(MappingCollector<NormalizedSimpleStack, Long> mapper, Configuration config) {
-        if (config.getBoolean("blacklistOresAndDusts", "", true, "Set EMC=0 for everything that has an TAG that starts with `ores` or `dusts` besides `c:dusts/plastic`")) {
+    public void addMappings(MappingCollector<NormalizedSimpleStack, Long> mapper, CommentedConfig config) {
+        if (ConfigHelper.getBoolean(config, "blacklistOresAndDusts", "", true, "Set EMC=0 for everything that has an TAG that starts with `ores` or `dusts` besides `c:dusts/plastic`")) {
             //Black-list all ores/dusts
             ItemRegistry.INSTANCE.streamTags().forEach(tagKey -> {
                 Identifier id = tagKey.id();

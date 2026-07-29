@@ -28,7 +28,7 @@ public class ProjectE {
     public static Logger LOGGER;
 
     public ProjectE() {
-        CONFIG_DIR = new File(FabricLoader.getInstance().getConfigDir() + "ProjectE");
+        CONFIG_DIR = FabricLoader.getInstance().getConfigDir().resolve("projecte").toFile();
         PREGENERATED_EMC_FILE = new File(CONFIG_DIR, "pregenerated_emc.json");
     }
 

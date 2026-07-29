@@ -1,5 +1,6 @@
 package net.ralf2oo2.projecte.emc.mapper.customconversion;
 
+import com.electronwill.nightconfig.core.CommentedConfig;
 import com.google.common.collect.ImmutableList;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -12,6 +13,7 @@ import net.ralf2oo2.projecte.emc.json.NSSTag;
 import net.ralf2oo2.projecte.emc.json.NormalizedSimpleStack;
 import net.ralf2oo2.projecte.emc.mapper.EMCMapper;
 import net.ralf2oo2.projecte.emc.mapper.customconversion.json.*;
+import net.ralf2oo2.projecte.util.ConfigHelper;
 import org.apache.commons.io.IOUtils;
 
 import java.io.*;
@@ -50,7 +52,7 @@ public class CustomConversionMapper implements EMCMapper<NormalizedSimpleStack, 
     }
 
     @Override
-    public void addMappings(MappingCollector<NormalizedSimpleStack, Long> mapper, Configuration config)
+    public void addMappings(MappingCollector<NormalizedSimpleStack, Long> mapper, CommentedConfig config)
     {
         File customConversionFolder = getCustomConversionFolder();
         if (customConversionFolder.isDirectory() || customConversionFolder.mkdir()) {
@@ -75,14 +77,14 @@ public class CustomConversionMapper implements EMCMapper<NormalizedSimpleStack, 
         }
     }
 
-    private static void readFile(File f, Configuration config, MappingCollector<NormalizedSimpleStack, Long> mapper, boolean allowDefaults)
+    private static void readFile(File f, CommentedConfig config, MappingCollector<NormalizedSimpleStack, Long> mapper, boolean allowDefaults)
     {
         if (f.isFile() && f.canRead() && f.getName().toLowerCase().endsWith(".json")) {
             String name = f.getName().substring(0, f.getName().length() - ".json".length());
 
             if (!EXAMPLE_FILENAME.equals(name)
                         && (allowDefaults || !defaultFilenames.contains(name))
-                        && config.getBoolean(name, "", true, String.format("Read file: %s?", f.getName()))) {
+                        && ConfigHelper.getBoolean(config, name, "", true, String.format("Read file: %s?", f.getName()))) {
                 try
                 {
                     NSSFake.setCurrentNamespace(name);

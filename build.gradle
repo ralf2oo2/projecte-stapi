@@ -83,6 +83,11 @@ repositories {
     mavenCentral()
 }
 
+configurations {
+    shadow
+    implementation.extendsFrom shadow
+}
+
 dependencies {
     minecraft "com.mojang:minecraft:${project.minecraft_version}"
     mappings "net.glasslauncher:biny:${project.yarn_mappings}:v2"
@@ -93,6 +98,7 @@ dependencies {
     implementation "org.apache.logging.log4j:log4j-slf4j18-impl:2.17.2"
     implementation "me.carleslc:Simple-Yaml:1.8.4"
 
+    shadow 'com.electronwill.night-config:core:3.9.0'
     shadow 'com.electronwill.night-config:toml:3.9.0'
 
     modImplementation("net.modificationstation:StationAPI:${project.stapi_version}") {
@@ -208,8 +214,14 @@ tasks.withType(Test).configureEach {
 }
 
 jar {
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
     from("LICENSE") {
         rename { "${it}_" + base.archivesName.get() }
+    }
+    from {
+        configurations.shadow.collect {
+            it.isDirectory() ? it : zipTree(it)
+        }
     }
 }
 
