@@ -1,0 +1,24 @@
+package net.ralf2oo2.projecte.api.item;
+
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
+import org.jetbrains.annotations.NotNull;
+
+/**
+ * This interface specifies items that perform a specific function every tick when inside an Alchemical Chest
+ *
+ * @author williewillus
+ */
+public interface AlchemicalChestItem
+{
+    /**
+     * Called on both client and server every time the alchemical chest ticks this item
+     * Implementers that modify the chest inventory (serverside) MUST call markDirty() on the tile entity.
+     * If you do not, your changes may not be saved when the world/chunk unloads!
+     *
+     * @param world The World
+     * @param stack The ItemStack being ticked
+     */
+    void updateInAlchChest(@NotNull World world, @NotNull BlockPos pos, @NotNull ItemStack stack);
+}
