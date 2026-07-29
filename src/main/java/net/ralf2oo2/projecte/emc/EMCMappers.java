@@ -17,6 +17,7 @@ import net.ralf2oo2.projecte.emc.generator.BigFractionToLongGenerator;
 import net.ralf2oo2.projecte.emc.generator.ValueGenerator;
 import net.ralf2oo2.projecte.emc.json.NSSItem;
 import net.ralf2oo2.projecte.emc.json.NormalizedSimpleStack;
+import net.ralf2oo2.projecte.emc.mapper.CraftingMapper;
 import net.ralf2oo2.projecte.emc.mapper.CustomEMCMapper;
 import net.ralf2oo2.projecte.emc.mapper.EMCMapper;
 import net.ralf2oo2.projecte.emc.mapper.TagMapper;
@@ -41,8 +42,8 @@ public final class EMCMappers
                 new TagMapper(),
 //                APICustomEMCMapper.instance,
                 new CustomConversionMapper(),
-                new CustomEMCMapper()
-//                new CraftingMapper(),
+                new CustomEMCMapper(),
+                new CraftingMapper()
 //                new moze_intel.projecte.emc.mappers.FluidMapper(),
 //                new SmeltingMapper(),
 //                new APICustomConversionMapper()
