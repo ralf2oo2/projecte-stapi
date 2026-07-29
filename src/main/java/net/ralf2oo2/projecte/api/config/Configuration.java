@@ -42,7 +42,9 @@ public class Configuration {
     public void save() {
         if (!isDirty) return;
 
-        configFile.getParentFile().mkdirs();
+        if(!configFile.getParentFile().mkdirs()) {
+            ProjectE.LOGGER.error("Could not create directory for config file: {}", configFile.getName());
+        }
 
         try (FileWriter writer = new FileWriter(configFile)) {
             gson.toJson(root, writer);
@@ -85,6 +87,22 @@ public class Configuration {
             catNode.addProperty(key, defaultValue);
             isDirty = true;
             return defaultValue;
+        }
+    }
+
+    public int getInt(String key, String category, int defaultValue, int minValue, int maxValue, String comment) {
+        JsonObject catNode = getOrCreateCategory(category);
+
+        if (catNode.has(key)) {
+            int val = catNode.get(key).getAsInt();
+            if (val < minValue) return minValue;
+            if (val > maxValue) return maxValue;
+            return val;
+        } else {
+            int clampedDefault = Math.max(minValue, Math.min(maxValue, defaultValue));
+            catNode.addProperty(key, clampedDefault);
+            isDirty = true;
+            return clampedDefault;
         }
     }
 }
