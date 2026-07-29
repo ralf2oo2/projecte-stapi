@@ -13,6 +13,7 @@ import net.ralf2oo2.projecte.event.PlayerKnowledgeChangeEvent;
 import net.ralf2oo2.projecte.listener.ItemListener;
 import net.ralf2oo2.projecte.playerdata.Transmutation;
 import net.ralf2oo2.projecte.util.EMCHelper;
+import net.ralf2oo2.projecte.util.InventoryHelper;
 import net.ralf2oo2.projecte.util.ItemHelper;
 import net.ralf2oo2.projecte.util.StackUtil;
 import org.jetbrains.annotations.NotNull;
@@ -186,7 +187,7 @@ public class DefaultKnowledgeEntityCapability extends KnowledgeEntityCapability 
         for (int i = 0; i < list.size(); i++)
         {
             ItemStack item = new ItemStack((NbtCompound) list.get(i));
-            if (StackUtil.isEmpty(item))
+            if (!StackUtil.isEmpty(item))
             {
                 knowledge.add(item);
             }
@@ -204,13 +205,11 @@ public class DefaultKnowledgeEntityCapability extends KnowledgeEntityCapability 
             inputLocks.setStack(i, null);
         }
 
-        NbtList inputLocksList = nbt.getList("inputlock");
-        for (int i = 0; i < inputLocksList.size(); i++) {
-            NbtCompound slotTag = (NbtCompound) inputLocksList.get(i);
-            byte slot = slotTag.getByte("Slot");
-
-            if (slot >= 0 && slot < inputLocks.size()) {
-                inputLocks.setStack(slot, new ItemStack(slotTag));
+        if (nbt.contains("inputlock")) {
+            InventoryHelper.readNbtList(nbt.getList("inputlock"), inputLocks);
+        } else {
+            for (int i = 0; i < inputLocks.size(); i++) {
+                inputLocks.setStack(i, null);
             }
         }
 
@@ -230,18 +229,7 @@ public class DefaultKnowledgeEntityCapability extends KnowledgeEntityCapability 
         }
 
         nbt.put("knowledge", knowledgeWrite);
-
-        NbtList inputLocksList = new NbtList();
-        for (int i = 0; i < inputLocks.size(); i++) {
-            ItemStack stack = inputLocks.getStack(i);
-            if (stack != null) {
-                NbtCompound slotTag = new NbtCompound();
-                slotTag.putByte("Slot", (byte) i);
-                stack.writeNbt(slotTag);
-                inputLocksList.add(slotTag);
-            }
-        }
-        nbt.put("inputlock", inputLocksList);
+        nbt.put("inputlock", InventoryHelper.toNbtList(inputLocks));
 
         nbt.putBoolean("fullknowledge", fullKnowledge);
         return nbt;
