@@ -1,28 +1,32 @@
 {
   "schemaVersion": 1,
-  "id": "template",
+  "id": "projecte",
   "version": "${version}",
 
-  "name": "Template",
+  "name": "ProjectE",
   "description": "",
   "authors": [
-    "DanyGames2014"
+    "sinkillerj", "Moze_Intel", "Ralf2oo2"
   ],
 
   "license": "MIT",
-  "icon": "assets/template/icon.png",
+  "icon": "assets/projecte/icon.png",
 
   "environment": "*",
   "entrypoints": {
     "stationapi:event_bus": [
+      "net.ralf2oo2.projecte.ProjectE"
     ],
     "stationapi:event_bus_client": [
     ],
     "stationapi:event_bus_server": [
+    ],
+    "gcapi3": [
+      "net.ralf2oo2.projecte.config.Config"
     ]
   },
   "mixins": [
-    "template.mixins.json"
+    "projecte.mixins.json"
   ],
 
   "depends": {

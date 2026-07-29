@@ -1,0 +1,38 @@
+{
+  "comment": "Various default values for OreDictionary names, from vanilla and other mods",
+  "comment_1": "This file is only shown as an example, it will be regenerated every time mapping occurs in order to let us",
+  "comment_2": "change default values. To specify your own custom values use a separate JSON or the /projecte commands ingame",
+  "values": {
+    "before": {
+      "TAG|c:logs": 32,
+      "TAG|c:planks/wooden": 8,
+      "TAG|c:saplings": 32,
+      "TAG|c:sticks/wooden": 4,
+      "TAG|c:leaves": 1,
+
+      "TAG|c:glass_blocks": 1,
+      "TAG|c:wools": 48,
+
+      "TAG|c:stones": 1,
+      "TAG|c:cobblestones": 1,
+
+      "TAG|c:gems/diamond": 8192,
+      "TAG|c:dusts/redstone": 64,
+      "TAG|c:dusts/glowstone": 384,
+      "TAG|c:dusts/coal": 64,
+      "TAG|c:dusts/charcoal": 16,
+      "TAG|c:dusts/sulfur": 32,
+
+      "TAG|c:gems/ruby": 2048,
+      "TAG|c:gems/sapphire": 2048,
+      "TAG|c:gems/peridot": 2048,
+      "TAG|c:marble/blocks": 4,
+
+      "TAG|c:glass_blocks/hardened": 192,
+
+      "TAG|c:rubbers": 32,
+      "TAG|c:ingots/uranium": 4096,
+      "TAG|c:ingots/cyanite": 1024
+    }
+  }
+}

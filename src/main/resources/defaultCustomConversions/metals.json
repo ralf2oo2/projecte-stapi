@@ -1,0 +1,22 @@
+{
+  "comment": "Sets default conversions for various metals from other mods",
+  "comment_1": "This file is only shown as an example, it will be regenerated every time mapping occurs in order to let us",
+  "comment_2": "change default values. To specify your own custom values use a separate JSON or the /projecte commands ingame",
+  "groups": {},
+  "values": {
+    "before": {
+      "TAG|c:ingots/iron":256
+    },
+    "conversion": [
+      {"evalTAG": true, "o": "TAG|c:ingots/obsidian", "c": 2, "i": {"minecraft:obsidian|0": 1}},
+      {"evalTAG": true, "o": "TAG|c:ingots/gold", "c": 1, "i": {"TAG|c:ingots/iron":8}},
+      {"evalTAG": true, "o": "TAG|c:ingots/copper", "c": 2, "i": {"TAG|c:ingots/iron":1}},
+      {"evalTAG": true, "o": "TAG|c:ingots/tim", "c": 1, "i": {"TAG|c:ingots/iron":1}},
+      {"evalTAG": true, "o": "TAG|c:ingots/bronze", "c": 4, "i": {"TAG|c:ingots/copper": 3, "TAG|c:ingots/tin": 1}},
+      {"evalTAG": true, "o": "TAG|c:ingots/silver", "c": 1, "i": {"TAG|c:ingots/iron":2}},
+      {"evalTAG": true, "o": "TAG|c:ingots/lead", "c": 1, "i": {"TAG|c:ingots/iron":2}},
+      {"evalTAG": true, "o": "TAG|c:ingots/nickel", "c": 1, "i": {"TAG|c:ingots/iron":4}},
+      {"evalTAG": true, "o": "TAG|c:ingots/aluminum", "c": 2, "i": {"TAG|c:ingots/iron":1}}
+    ]
+  }
+}

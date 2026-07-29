@@ -1,0 +1,90 @@
+{
+  "comment": "Default values for non-OreDictionary vanilla items",
+  "comment_1": "This file is only shown as an example, it will be regenerated every time mapping occurs in order to let us",
+  "comment_2": "change default values. To specify your own custom values use a separate JSON or the /projecte commands ingame",
+  "groups": {
+    "default": {
+      "comment": "Default conversion group",
+      "conversions": [
+        {
+          "output": "minecraft:grass|0",
+          "ingredients": {
+            "minecraft:dirt|0": 2
+          }
+        },
+        {
+          "output": "minecraft:dirt|2",
+          "ingredients": {
+            "minecraft:dirt|0": 2
+          }
+        }
+      ]
+    },
+    "notch_apple": {
+      "comment": "Give Notch apple a value based on its old recipe",
+      "conversions": [
+        {
+          "output": "minecraft:golden_apple|1",
+          "ingredients": {
+            "minecraft:apple|0": 1,
+            "minecraft:gold_block|0": 8
+          }
+        }
+      ]
+    }
+  },
+  "values": {
+    "before": {
+      "minecraft:cobblestone|0": 1,
+      "minecraft:stone|0": 1,
+      "minecraft:netherrack|0": 1,
+      "minecraft:dirt|0": 1,
+      "minecraft:sand|0": 1,
+      "minecraft:snow|0": 1,
+      "minecraft:ice|0": 1,
+      "minecraft:dead_bush|0": 1,
+      "minecraft:gravel|0": 4,
+      "minecraft:cactus|0": 8,
+      "minecraft:cobweb|0": 12,
+      "minecraft:rose|0": 16,
+      "minecraft:dandelion|0": 16,
+      "minecraft:red_mushroom|0": 32,
+      "minecraft:brown_mushroom|0": 32,
+      "minecraft:sugar_cane|0": 32,
+      "minecraft:soul_sand|0": 49,
+      "minecraft:obsidian|0": 64,
+      "minecraft:sponge|0": 128,
+      "minecraft:lava|0": 128,
+
+      "minecraft:wheat_seeds|0": 16,
+      "minecraft:wheat|0": 24,
+      "minecraft:apple|0": 128,
+      "minecraft:carved_pumpkin|0": 144,
+      "minecraft:porkchop|0": 64,
+      "minecraft:cod|0": 64,
+
+      "minecraft:string|0": 12,
+      "minecraft:slime_ball|0": 32,
+      "minecraft:egg|0": 32,
+      "minecraft:feather|0": 48,
+      "minecraft:gunpowder|0": 192,
+
+      "minecraft:saddle|0": 192,
+      "minecraft:music_disc_13|0": 2048,
+      "minecraft:music_disc_cat|0": 2048,
+
+      "minecraft:diamond|0": 8192,
+      "minecraft:flint|0": 4,
+      "minecraft:coal|0": 128,
+      "minecraft:redstone|0": 64,
+      "minecraft:glowstone_dust|0": 384,
+      "minecraft:dye|0": 16,
+      "minecraft:dye|3": 128,
+      "minecraft:dye|4": 864,
+      "minecraft:clay_ball|0": 16,
+      "minecraft:bone|0": 144,
+      "minecraft:snowball|0": 1,
+      "minecraft:map|0": 1472
+    }
+  }
+}
