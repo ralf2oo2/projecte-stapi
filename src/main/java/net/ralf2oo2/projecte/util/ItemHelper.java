@@ -11,10 +11,7 @@ import net.modificationstation.stationapi.api.util.Identifier;
 import net.ralf2oo2.projecte.ProjectE;
 import net.ralf2oo2.projecte.emc.json.NSSItem;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Helpers for Inventories, ItemStacks, Items, and the Ore Dictionary
@@ -72,42 +69,28 @@ public final class ItemHelper
     /**
      * Compacts and sorts list of items, without regard for stack sizes
      */
-//    public static void compactItemListNoStacksize(List<ItemStack> list)
-//    {
-//        for (int i = 0; i < list.size(); i++)
-//        {
-//            ItemStack s = list.get(i);
-//            if (!StackUtil.isEmpty(s))
-//            {
-//                for (int j = i + 1; j < list.size(); j++)
-//                {
-//                    ItemStack s1 = list.get(j);
-//                    if (ItemHandlerHelper.canItemStacksStack(s, s1))
-//                    {
-//                        s.grow(s1.getCount());
-//                        list.set(j, ItemStack.EMPTY);
-//                    }
-//                }
-//            }
-//        }
-//
-//        list.removeIf(ItemStack::isEmpty);
-//        list.sort(Comparators.ITEMSTACK_ASCENDING);
-//    }
+    public static void compactItemListNoStacksize(List<ItemStack> list)
+    {
+        for (int i = 0; i < list.size(); i++)
+        {
+            ItemStack s = list.get(i);
+            if (!StackUtil.isEmpty(s))
+            {
+                for (int j = i + 1; j < list.size(); j++)
+                {
+                    ItemStack s1 = list.get(j);
+                    if (ItemHelper.areItemStacksEqual(s, s1))
+                    {
+                        s.count += s1.count;
+                        list.set(j, null);
+                    }
+                }
+            }
+        }
 
-    /**
-     * Removes all empty tags from any items in the list.
-     */
-//    public static void removeEmptyTags(List<ItemStack> list)
-//    {
-//        for (ItemStack s : list)
-//        {
-//            if (!s.isEmpty() && s.hasTagCompound() && s.getTagCompound().isEmpty())
-//            {
-//                s.setTagCompound(null);
-//            }
-//        }
-//    }
+        list.removeIf(Objects::isNull);
+        list.sort(Comparators.ITEMSTACK_ASCENDING);
+    }
 
     public static boolean containsItemStack(List<ItemStack> list, ItemStack toSearch)
     {

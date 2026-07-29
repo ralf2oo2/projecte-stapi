@@ -4,6 +4,7 @@ import com.electronwill.nightconfig.core.CommentedConfig;
 import com.electronwill.nightconfig.core.file.CommentedFileConfig;
 import com.electronwill.nightconfig.core.io.WritingMode;
 import net.minecraft.item.Item;
+import net.modificationstation.stationapi.api.StationAPI;
 import net.modificationstation.stationapi.api.registry.ItemRegistry;
 import net.modificationstation.stationapi.api.util.Identifier;
 import net.ralf2oo2.projecte.ProjectE;
@@ -21,6 +22,8 @@ import net.ralf2oo2.projecte.emc.json.NormalizedSimpleStack;
 import net.ralf2oo2.projecte.emc.mapper.*;
 import net.ralf2oo2.projecte.emc.mapper.customconversion.CustomConversionMapper;
 import net.ralf2oo2.projecte.emc.pregenerated.PregeneratedEMC;
+import net.ralf2oo2.projecte.event.EMCRemapEvent;
+import net.ralf2oo2.projecte.playerdata.Transmutation;
 import net.ralf2oo2.projecte.util.ConfigHelper;
 import org.apache.commons.math3.fraction.BigFraction;
 
@@ -152,8 +155,8 @@ public final class EMCMappers
             }
         }
 
-//        MinecraftForge.EVENT_BUS.post(new EMCRemapEvent());
-//        Transmutation.cacheFullKnowledge();
+        StationAPI.EVENT_BUS.post(new EMCRemapEvent());
+        Transmutation.cacheFullKnowledge();
 //        FuelMapper.loadMap();
 //        ProjectE.refreshJEI();
     }
