@@ -5,7 +5,7 @@
   "values": {
     "before": {
       "TAG|c:logs": 32,
-      "TAG|c:planks/wooden": 8,
+      "TAG|c:planks": 8,
       "TAG|c:saplings": 32,
       "TAG|c:sticks/wooden": 4,
       "TAG|c:leaves": 1,

@@ -17,10 +17,7 @@ import net.ralf2oo2.projecte.emc.generator.BigFractionToLongGenerator;
 import net.ralf2oo2.projecte.emc.generator.ValueGenerator;
 import net.ralf2oo2.projecte.emc.json.NSSItem;
 import net.ralf2oo2.projecte.emc.json.NormalizedSimpleStack;
-import net.ralf2oo2.projecte.emc.mapper.CraftingMapper;
-import net.ralf2oo2.projecte.emc.mapper.CustomEMCMapper;
-import net.ralf2oo2.projecte.emc.mapper.EMCMapper;
-import net.ralf2oo2.projecte.emc.mapper.TagMapper;
+import net.ralf2oo2.projecte.emc.mapper.*;
 import net.ralf2oo2.projecte.emc.mapper.customconversion.CustomConversionMapper;
 import net.ralf2oo2.projecte.emc.pregenerated.PregeneratedEMC;
 import org.apache.commons.math3.fraction.BigFraction;
@@ -43,9 +40,9 @@ public final class EMCMappers
 //                APICustomEMCMapper.instance,
                 new CustomConversionMapper(),
                 new CustomEMCMapper(),
-                new CraftingMapper()
+                new CraftingMapper(),
 //                new moze_intel.projecte.emc.mappers.FluidMapper(),
-//                new SmeltingMapper(),
+                new SmeltingMapper()
 //                new APICustomConversionMapper()
         );
         SimpleGraphMapper<NormalizedSimpleStack, BigFraction, ValueArithmetic<BigFraction>> mapper = new SimpleGraphMapper<>(new HiddenBigFractionArithmetic());
