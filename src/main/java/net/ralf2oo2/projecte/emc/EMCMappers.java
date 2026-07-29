@@ -7,8 +7,6 @@ import net.minecraft.item.Item;
 import net.modificationstation.stationapi.api.registry.ItemRegistry;
 import net.modificationstation.stationapi.api.util.Identifier;
 import net.ralf2oo2.projecte.ProjectE;
-import net.ralf2oo2.projecte.api.config.Configuration;
-import net.ralf2oo2.projecte.api.config.PrefixConfiguration;
 import net.ralf2oo2.projecte.config.Config;
 import net.ralf2oo2.projecte.emc.arithmetic.HiddenBigFractionArithmetic;
 import net.ralf2oo2.projecte.emc.arithmetic.ValueArithmetic;
@@ -41,22 +39,20 @@ public final class EMCMappers
     {
         List<EMCMapper<NormalizedSimpleStack, Long>> emcMappers = Arrays.asList(
                 new TagMapper(),
-//                APICustomEMCMapper.instance,
+                APICustomEMCMapper.INSTANCE,
                 new CustomConversionMapper(),
                 new CustomEMCMapper(),
                 new CraftingMapper(),
-//                new moze_intel.projecte.emc.mappers.FluidMapper(),
-                new SmeltingMapper()
-//                new APICustomConversionMapper()
+                new FluidMapper(),
+                new SmeltingMapper(),
+                new APICustomConversionMapper()
         );
         SimpleGraphMapper<NormalizedSimpleStack, BigFraction, ValueArithmetic<BigFraction>> mapper = new SimpleGraphMapper<>(new HiddenBigFractionArithmetic());
         ValueGenerator<NormalizedSimpleStack, Long> valueGenerator = new BigFractionToLongGenerator<>(mapper);
         ExtendedMappingCollector<NormalizedSimpleStack, Long, ValueArithmetic<BigFraction>> mappingCollector = new LongToBigFractionCollector<>(mapper);
         mappingCollector = new WildcardSetValueFixCollector<>(mappingCollector);
 
-        if(!ProjectE.CONFIG_DIR.mkdirs()) {
-            ProjectE.LOGGER.error("Cannot create directories for " + ProjectE.CONFIG_DIR);
-        }
+        ProjectE.CONFIG_DIR.mkdirs();
 
         CommentedFileConfig config = CommentedFileConfig.builder(new File(ProjectE.CONFIG_DIR, "mapping.toml"))
             .autosave()
