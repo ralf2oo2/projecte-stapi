@@ -6,6 +6,7 @@ import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.gui.widget.TextFieldWidget;
 import net.minecraft.client.resource.language.I18n;
 import net.minecraft.entity.player.PlayerInventory;
+import net.ralf2oo2.projecte.config.Config;
 import net.ralf2oo2.projecte.screen.handler.TransmutationScreenHandler;
 import net.ralf2oo2.projecte.screen.inventory.TransmutationInventory;
 import net.ralf2oo2.projecte.util.TransmutationEMCFormatter;
@@ -35,8 +36,10 @@ public class TransmutationScreen extends HandledScreen {
         this.textBoxFilter = new TextFieldWidget(this, this.textRenderer, xLocation + 88, yLocation + 8, 45, 10, "");
         this.textBoxFilter.setText(inv.filter);
 
-        this.buttons.add(new ButtonWidget(1, xLocation + 125, yLocation + 100, 14, 14, "<"));
-        this.buttons.add(new ButtonWidget(2, xLocation + 193, yLocation + 100, 14, 14, ">"));
+        if(!Config.DIFFICULTY_CONFIG.disableTransmutationSearch) {
+            this.buttons.add(new ButtonWidget(1, xLocation + 125, yLocation + 100, 14, 14, "<"));
+            this.buttons.add(new ButtonWidget(2, xLocation + 193, yLocation + 100, 14, 14, ">"));
+        }
     }
 
     @Override
@@ -48,17 +51,19 @@ public class TransmutationScreen extends HandledScreen {
         int guiTop = (this.height - this.backgroundHeight) / 2;
         this.drawTexture(guiLeft, guiTop, 0, 0, backgroundWidth, backgroundHeight);
 
-        this.textBoxFilter.render();
+        if(!Config.DIFFICULTY_CONFIG.disableTransmutationSearch) {
+            this.textBoxFilter.render();
+        }
     }
 
     @Override
     protected void drawForeground() {
-        this.textRenderer.draw(I18n.getTranslation("pe.transmutation.transmute"), 6, 8, 4210752);
+        this.textRenderer.draw(I18n.getTranslation("pe.transmutation.transmute"), 6, 5, 4210752);
         long emcAmount = inv.getAvailableEMC();
         String emcLabel = I18n.getTranslation("pe.emc.emc_tooltip_prefix");
-        this.textRenderer.draw(emcLabel, 6, this.backgroundHeight - 104, 4210752);
+        this.textRenderer.draw(emcLabel, 6, this.backgroundHeight - 100, 4210752);
         String emc = TransmutationEMCFormatter.EMCFormat(emcAmount);
-        this.textRenderer.draw(emc, 6, this.backgroundHeight - 94, 4210752);
+        this.textRenderer.draw(emc, 6, this.backgroundHeight - 90, 4210752);
 
         if (inv.learnFlag > 0)
         {
@@ -98,7 +103,7 @@ public class TransmutationScreen extends HandledScreen {
 
     @Override
     protected void keyPressed(char character, int keyCode) {
-        if (this.textBoxFilter.focused)
+        if (this.textBoxFilter.focused && !Config.DIFFICULTY_CONFIG.disableTransmutationSearch)
         {
             this.textBoxFilter.keyPressed(character, keyCode);
 
@@ -129,7 +134,9 @@ public class TransmutationScreen extends HandledScreen {
 
     @Override
     protected void mouseClicked(int mouseX, int mouseY, int button) {
-        textBoxFilter.mouseClicked(mouseX, mouseY, button);
+        if(!Config.DIFFICULTY_CONFIG.disableTransmutationSearch) {
+            textBoxFilter.mouseClicked(mouseX, mouseY, button);
+        }
         super.mouseClicked(mouseX, mouseY, button);
     }
 
