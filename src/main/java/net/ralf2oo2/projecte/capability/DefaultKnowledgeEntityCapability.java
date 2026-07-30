@@ -2,6 +2,7 @@ package net.ralf2oo2.projecte.capability;
 
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.Inventory;
+import net.modificationstation.stationapi.api.network.packet.PacketHelper;
 import net.ralf2oo2.projecte.inventory.SimpleInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
@@ -10,6 +11,7 @@ import net.modificationstation.stationapi.api.StationAPI;
 import net.ralf2oo2.projecte.api.capability.KnowledgeEntityCapability;
 import net.ralf2oo2.projecte.event.PlayerKnowledgeChangeEvent;
 import net.ralf2oo2.projecte.listener.ItemListener;
+import net.ralf2oo2.projecte.packet.KnowledgeSyncS2CPacket;
 import net.ralf2oo2.projecte.playerdata.Transmutation;
 import net.ralf2oo2.projecte.util.EMCHelper;
 import net.ralf2oo2.projecte.util.InventoryHelper;
@@ -175,7 +177,8 @@ public class DefaultKnowledgeEntityCapability extends KnowledgeEntityCapability 
     @Override
     public void sync(@NotNull PlayerEntity player)
     {
-//        PacketHelper.sendTo(new KnowledgeSyncPKT(serializeNBT()), player);
+        System.out.println("Syncing with " + player.name);
+        PacketHelper.sendTo(player, new KnowledgeSyncS2CPacket(writeNbt()));
     }
 
     @Override

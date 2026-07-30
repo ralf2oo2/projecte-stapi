@@ -50,8 +50,7 @@ public final class EMCHelper
                 if (itemEmc.getStoredEmc(stack) >= minFuel)
                 {
                     itemEmc.extractEmc(stack, minFuel);
-                    // TODO: check if this works, original uses detectAndSendChanges
-                    player.inventory.markDirty();
+                    player.currentScreenHandler.sendContentUpdates();
                     return minFuel;
                 }
             }
@@ -102,8 +101,7 @@ public final class EMCHelper
                 }
             }
 
-            // TODO: check if this works, original uses detectAndSendChanges
-            player.inventory.markDirty();
+            player.currentScreenHandler.sendContentUpdates();
             return emcConsumed;
         }
 

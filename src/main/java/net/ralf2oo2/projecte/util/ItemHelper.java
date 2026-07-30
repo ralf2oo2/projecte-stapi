@@ -113,6 +113,9 @@ public final class ItemHelper
      */
     public static ItemStack getNormalizedStack(ItemStack stack)
     {
+        if(StackUtil.isEmpty(stack)) {
+            return stack;
+        }
         ItemStack result = stack.copy();
         result.count = 1;
         return result;

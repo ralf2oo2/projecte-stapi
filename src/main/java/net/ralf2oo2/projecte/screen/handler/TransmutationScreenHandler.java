@@ -5,8 +5,10 @@ import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.screen.slot.Slot;
+import net.modificationstation.stationapi.api.network.packet.PacketHelper;
 import net.ralf2oo2.projecte.listener.ItemListener;
 import net.ralf2oo2.projecte.inventory.TransmutationInventory;
+import net.ralf2oo2.projecte.packet.SearchUpdateC2SPacket;
 import net.ralf2oo2.projecte.screen.slot.*;
 import net.ralf2oo2.projecte.util.EMCHelper;
 import net.ralf2oo2.projecte.util.ItemHelper;
@@ -145,10 +147,9 @@ public class TransmutationScreenHandler extends ScreenHandler {
 
     @Override
     public ItemStack onSlotClick(int index, int button, boolean shift, PlayerEntity player) {
-        if (!player.world.isRemote && transmutationInventory.getInventoryForSlot(index) == transmutationInventory.outputs)
+        if (player.world.isRemote && transmutationInventory.getInventoryForSlot(index) == transmutationInventory.outputs)
         {
-            // TODO: syncing
-//            PacketHandler.sendToServer(new SearchUpdatePKT(transmutationInventory.getIndexFromSlot(slot), getSlot(slot).getStack()));
+            PacketHelper.send(new SearchUpdateC2SPacket(transmutationInventory.getIndexFromSlot(index), getSlot(index).getStack()));
         }
 
         if (index == blocked)
