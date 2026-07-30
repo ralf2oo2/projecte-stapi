@@ -1,10 +1,9 @@
-package net.ralf2oo2.projecte.screen.inventory;
+package net.ralf2oo2.projecte.inventory;
 
 import net.danygames2014.nyalib.capability.CapabilityHelper;
 import net.minecraft.client.resource.language.I18n;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.Inventory;
-import net.minecraft.inventory.SimpleInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.modificationstation.stationapi.api.StationAPI;
@@ -270,7 +269,7 @@ public class TransmutationInventory extends CombinedInventoryWrapper{
 
         try
         {
-            displayName = I18n.getTranslation(stack.getItem().getTranslationKey(stack)).toLowerCase(Locale.ROOT);
+            displayName = I18n.getTranslation(stack.getItem().getTranslationKey()).toLowerCase(Locale.ROOT);
         } catch (Exception e)
         {
             e.printStackTrace();

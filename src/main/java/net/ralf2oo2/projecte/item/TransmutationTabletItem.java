@@ -7,11 +7,12 @@ import net.modificationstation.stationapi.api.gui.screen.container.GuiHelper;
 import net.modificationstation.stationapi.api.util.Identifier;
 import net.ralf2oo2.projecte.ProjectE;
 import net.ralf2oo2.projecte.screen.handler.TransmutationScreenHandler;
-import net.ralf2oo2.projecte.screen.inventory.TransmutationInventory;
+import net.ralf2oo2.projecte.inventory.TransmutationInventory;
 
 public class TransmutationTabletItem extends ProjectEItem{
     public TransmutationTabletItem(Identifier identifier) {
         super(identifier);
+        setMaxCount(1);
     }
 
     @Override

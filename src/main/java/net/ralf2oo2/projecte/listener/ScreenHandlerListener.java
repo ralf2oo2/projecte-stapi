@@ -9,7 +9,7 @@ import net.modificationstation.stationapi.api.event.registry.GuiHandlerRegistryE
 import net.modificationstation.stationapi.api.mod.entrypoint.Entrypoint;
 import net.modificationstation.stationapi.api.util.Namespace;
 import net.ralf2oo2.projecte.client.gui.screen.TransmutationScreen;
-import net.ralf2oo2.projecte.screen.inventory.TransmutationInventory;
+import net.ralf2oo2.projecte.inventory.TransmutationInventory;
 
 public class ScreenHandlerListener {
     @Entrypoint.Namespace

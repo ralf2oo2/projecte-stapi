@@ -2,12 +2,11 @@ package net.ralf2oo2.projecte.capability;
 
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.Inventory;
-import net.minecraft.inventory.SimpleInventory;
+import net.ralf2oo2.projecte.inventory.SimpleInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtList;
 import net.modificationstation.stationapi.api.StationAPI;
-import net.modificationstation.stationapi.api.network.packet.PacketHelper;
 import net.ralf2oo2.projecte.api.capability.KnowledgeEntityCapability;
 import net.ralf2oo2.projecte.event.PlayerKnowledgeChangeEvent;
 import net.ralf2oo2.projecte.listener.ItemListener;

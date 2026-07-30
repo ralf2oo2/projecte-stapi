@@ -2,7 +2,7 @@ package net.ralf2oo2.projecte.screen.slot;
 
 import net.minecraft.item.ItemStack;
 import net.minecraft.screen.slot.Slot;
-import net.ralf2oo2.projecte.screen.inventory.TransmutationInventory;
+import net.ralf2oo2.projecte.inventory.TransmutationInventory;
 import net.ralf2oo2.projecte.util.EMCHelper;
 
 public class OutputSlot extends Slot {

@@ -1,4 +1,4 @@
-package net.ralf2oo2.projecte.screen.inventory;
+package net.ralf2oo2.projecte.inventory;
 
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.Inventory;

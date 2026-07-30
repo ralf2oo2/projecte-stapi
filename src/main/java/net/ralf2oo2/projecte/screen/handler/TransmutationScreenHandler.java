@@ -2,18 +2,15 @@ package net.ralf2oo2.projecte.screen.handler;
 
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.inventory.Inventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.screen.slot.Slot;
 import net.ralf2oo2.projecte.listener.ItemListener;
-import net.ralf2oo2.projecte.screen.inventory.TransmutationInventory;
+import net.ralf2oo2.projecte.inventory.TransmutationInventory;
 import net.ralf2oo2.projecte.screen.slot.*;
 import net.ralf2oo2.projecte.util.EMCHelper;
 import net.ralf2oo2.projecte.util.ItemHelper;
 import net.ralf2oo2.projecte.util.StackUtil;
-
-import java.util.Arrays;
 
 public class TransmutationScreenHandler extends ScreenHandler {
     public final TransmutationInventory transmutationInventory;

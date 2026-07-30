@@ -1,12 +1,12 @@
 package net.ralf2oo2.projecte.capability;
 
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.inventory.Inventory;
-import net.minecraft.inventory.SimpleInventory;
+import net.minecraft.inventory.Inventory;;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtList;
 import net.modificationstation.stationapi.api.vanillafix.util.DyeColor;
 import net.ralf2oo2.projecte.api.capability.AlchemicalBagEntityCapability;
+import net.ralf2oo2.projecte.inventory.SimpleInventory;
 import net.ralf2oo2.projecte.util.InventoryHelper;
 import org.jetbrains.annotations.NotNull;
 

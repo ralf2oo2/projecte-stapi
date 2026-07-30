@@ -8,7 +8,7 @@ import net.minecraft.client.resource.language.I18n;
 import net.minecraft.entity.player.PlayerInventory;
 import net.ralf2oo2.projecte.config.Config;
 import net.ralf2oo2.projecte.screen.handler.TransmutationScreenHandler;
-import net.ralf2oo2.projecte.screen.inventory.TransmutationInventory;
+import net.ralf2oo2.projecte.inventory.TransmutationInventory;
 import net.ralf2oo2.projecte.util.TransmutationEMCFormatter;
 import org.lwjgl.opengl.GL11;
 
