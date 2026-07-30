@@ -1,6 +1,10 @@
 package net.ralf2oo2.projecte.listener;
 
+import net.mine_diver.unsafeevents.listener.EventListener;
 import net.minecraft.item.Item;
+import net.modificationstation.stationapi.api.event.registry.ItemRegistryEvent;
+import net.ralf2oo2.projecte.ProjectE;
+import net.ralf2oo2.projecte.item.TransmutationTabletItem;
 
 public class ItemListener {
     public static Item philosStone;
@@ -81,4 +85,9 @@ public class ItemListener {
     public static Item windProjectile;
     public static Item transmutationTablet;
     public static Item manual;
+
+    @EventListener
+    public void registerItems(ItemRegistryEvent event) {
+        transmutationTablet = new TransmutationTabletItem(ProjectE.NAMESPACE.id("transmutation_tablet"));
+    }
 }

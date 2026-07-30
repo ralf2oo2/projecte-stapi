@@ -2,14 +2,18 @@ package net.ralf2oo2.projecte.util;
 
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.inventory.Inventory;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.ralf2oo2.projecte.api.item.ItemEmc;
 import net.ralf2oo2.projecte.emc.EMCMappers;
+import net.ralf2oo2.projecte.emc.FuelMapper;
 import net.ralf2oo2.projecte.emc.SimpleStack;
 import net.ralf2oo2.projecte.emc.mapper.EMCMapper;
 
 import java.math.BigInteger;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 /**
  * Helper class for EMC.
@@ -21,90 +25,90 @@ public final class EMCHelper
      * Consumes EMC from fuel items or Klein Stars
      * Any extra EMC is discarded !!! To retain remainder EMC use ItemPE.consumeFuel()
      */
-//    public static long consumePlayerFuel(PlayerEntity player, long minFuel)
-//    {
-//        if (false) // creative check
-//        {
-//            return minFuel;
-//        }
-//
-//        IItemHandler inv = player.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, EnumFacing.UP);
-//        Map<Integer, Integer> map = new LinkedHashMap<>();
-//        boolean metRequirement = false;
-//        long emcConsumed = 0;
-//
-//        ItemStack offhand = player.getHeldItemOffhand();
-//
-//        if (!offhand.isEmpty() && offhand.getItem() instanceof IItemEmc)
-//        {
-//            IItemEmc itemEmc = ((IItemEmc) offhand.getItem());
-//            if (itemEmc.getStoredEmc(offhand) >= minFuel)
-//            {
-//                itemEmc.extractEmc(offhand, minFuel);
-//                player.inventoryContainer.detectAndSendChanges();
-//                return minFuel;
-//            }
-//        }
-//
-//        for (int i = 0; i < inv.getSlots(); i++)
-//        {
-//            ItemStack stack = inv.getStackInSlot(i);
-//
-//            if (stack.isEmpty())
-//            {
-//                continue;
-//            }
-//            else if (stack.getItem() instanceof IItemEmc)
-//            {
-//                IItemEmc itemEmc = ((IItemEmc) stack.getItem());
-//                if (itemEmc.getStoredEmc(stack) >= minFuel)
-//                {
-//                    itemEmc.extractEmc(stack, minFuel);
-//                    player.inventoryContainer.detectAndSendChanges();
-//                    return minFuel;
-//                }
-//            }
-//            else if (!metRequirement)
-//            {
-//                if(FuelMapper.isStackFuel(stack))
-//                {
-//                    long emc = getEmcValue(stack);
-//                    int toRemove = (int)Math.ceil((double) (minFuel - emcConsumed) / emc);
-//
-//                    if (stack.getCount() >= toRemove)
-//                    {
-//                        map.put(i, toRemove);
-//                        emcConsumed += emc * toRemove;
-//                        metRequirement = true;
-//                    }
-//                    else
-//                    {
-//                        map.put(i, stack.getCount());
-//                        emcConsumed += emc * stack.getCount();
-//
-//                        if (emcConsumed >= minFuel)
-//                        {
-//                            metRequirement = true;
-//                        }
-//                    }
-//
-//                }
-//            }
-//        }
-//
-//        if (metRequirement)
-//        {
-//            for (Map.Entry<Integer, Integer> entry : map.entrySet())
-//            {
-//                inv.extractItem(entry.getKey(), entry.getValue(), false);
-//            }
-//
-//            player.inventoryContainer.detectAndSendChanges();
-//            return emcConsumed;
-//        }
-//
-//        return -1;
-//    }
+    public static long consumePlayerFuel(PlayerEntity player, long minFuel)
+    {
+        if (false) // creative check
+        {
+            return minFuel;
+        }
+
+        Inventory inv = player.inventory;
+        Map<Integer, Integer> map = new LinkedHashMap<>();
+        boolean metRequirement = false;
+        long emcConsumed = 0;
+
+        for (int i = 0; i < inv.size(); i++)
+        {
+            ItemStack stack = inv.getStack(i);
+
+            if (StackUtil.isEmpty(stack))
+            {
+                continue;
+            }
+            else if (stack.getItem() instanceof ItemEmc itemEmc)
+            {
+                if (itemEmc.getStoredEmc(stack) >= minFuel)
+                {
+                    itemEmc.extractEmc(stack, minFuel);
+                    // TODO: check if this works, original uses detectAndSendChanges
+                    player.inventory.markDirty();
+                    return minFuel;
+                }
+            }
+            else if (!metRequirement)
+            {
+                if(FuelMapper.isStackFuel(stack))
+                {
+                    long emc = getEmcValue(stack);
+                    int toRemove = (int)Math.ceil((double) (minFuel - emcConsumed) / emc);
+
+                    if (stack.count >= toRemove)
+                    {
+                        map.put(i, toRemove);
+                        emcConsumed += emc * toRemove;
+                        metRequirement = true;
+                    }
+                    else
+                    {
+                        map.put(i, stack.count);
+                        emcConsumed += emc * stack.count;
+
+                        if (emcConsumed >= minFuel)
+                        {
+                            metRequirement = true;
+                        }
+                    }
+
+                }
+            }
+        }
+
+        if (metRequirement)
+        {
+            for (Map.Entry<Integer, Integer> entry : map.entrySet())
+            {
+                int slot = entry.getKey();
+                int amountToExtract = entry.getValue();
+
+                ItemStack stack = inv.getStack(slot);
+                if (stack != null && stack.itemId != 0) {
+                    stack.count -= Math.min(stack.count, amountToExtract);
+
+                    if (stack.count <= 0) {
+                        inv.setStack(slot, null);
+                    } else {
+                        inv.markDirty();
+                    }
+                }
+            }
+
+            // TODO: check if this works, original uses detectAndSendChanges
+            player.inventory.markDirty();
+            return emcConsumed;
+        }
+
+        return -1;
+    }
 
     public static boolean doesBlockHaveEmc(Block block)
     {

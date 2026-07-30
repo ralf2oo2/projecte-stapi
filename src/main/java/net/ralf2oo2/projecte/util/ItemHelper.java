@@ -263,17 +263,17 @@ public final class ItemHelper
 //        return oreDictName.startsWith("ore") || oreDictName.startsWith("denseore");
 //    }
 
-//    public static IBlockState stackToState(ItemStack stack)
-//    {
-//        if (stack.getItem() instanceof ItemBlock)
-//        {
-//            return ((BlockItem) stack.getItem()).getBlock().getStateFromMeta(stack.getMetadata());
-//        }
-//        else
-//        {
-//            return null;
-//        }
-//    }
+    public static BlockState stackToState(ItemStack stack)
+    {
+        if (stack.getItem() instanceof BlockItem blockItem)
+        {
+            return blockItem.getBlock().getDefaultState();
+        }
+        else
+        {
+            return null;
+        }
+    }
 //
 //    public static ItemStack stateToStack(IBlockState state, int stackSize)
 //    {

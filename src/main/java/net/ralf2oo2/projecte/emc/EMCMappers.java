@@ -157,7 +157,7 @@ public final class EMCMappers
 
         StationAPI.EVENT_BUS.post(new EMCRemapEvent());
         Transmutation.cacheFullKnowledge();
-//        FuelMapper.loadMap();
+        FuelMapper.loadMap();
 //        ProjectE.refreshJEI();
     }
 
