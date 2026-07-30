@@ -270,7 +270,7 @@ public class TransmutationInventory extends CombinedInventoryWrapper{
 
         try
         {
-            displayName = I18n.getTranslation(stack.getTranslationKey()).toLowerCase(Locale.ROOT);
+            displayName = I18n.getTranslation(stack.getItem().getTranslationKey(stack)).toLowerCase(Locale.ROOT);
         } catch (Exception e)
         {
             e.printStackTrace();

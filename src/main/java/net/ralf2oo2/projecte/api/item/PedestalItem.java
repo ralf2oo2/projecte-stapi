@@ -5,6 +5,7 @@ import net.fabricmc.api.Environment;
 import net.minecraft.client.resource.language.I18n;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.modificationstation.stationapi.api.util.Formatting;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
@@ -17,7 +18,7 @@ import java.util.List;
 public interface PedestalItem {
 
     @Environment(EnvType.CLIENT)
-    String TOOLTIPDISABLED = I18n.getTranslation("pe.pedestal.item_disabled");
+    String TOOLTIPDISABLED = Formatting.RED + I18n.getTranslation("pe.pedestal.item_disabled");
 
     /***
      * Called on both client and server each time an active DMPedestalTile ticks with this item inside

@@ -11,6 +11,8 @@ import net.ralf2oo2.projecte.screen.inventory.TransmutationInventory;
 import net.ralf2oo2.projecte.util.TransmutationEMCFormatter;
 import org.lwjgl.opengl.GL11;
 
+import java.util.Locale;
+
 public class TransmutationScreen extends HandledScreen {
     private static final String texture = "/assets/projecte/stationapi/textures/gui/transmute.png";
     private final TransmutationInventory inv;
@@ -114,11 +116,42 @@ public class TransmutationScreen extends HandledScreen {
         {
             this.minecraft.setScreen(null);
         }
+        if(!this.textBoxFilter.focused) {
+            super.keyPressed(character, keyCode);
+        }
     }
 
     @Override
     public void render(int mouseX, int mouseY, float delta) {
         renderBackground();
         super.render(mouseX, mouseY, delta);
+    }
+
+    @Override
+    protected void mouseClicked(int mouseX, int mouseY, int button) {
+        textBoxFilter.mouseClicked(mouseX, mouseY, button);
+        super.mouseClicked(mouseX, mouseY, button);
+    }
+
+    @Override
+    protected void buttonClicked(ButtonWidget button) {
+        String srch = this.textBoxFilter.getText().toLowerCase(Locale.ROOT);
+
+        if (button.id == 1)
+        {
+            if (inv.searchpage != 0)
+            {
+                inv.searchpage--;
+            }
+        }
+        else if (button.id == 2)
+        {
+            if (!(inv.knowledge.size() <= 12))
+            {
+                inv.searchpage++;
+            }
+        }
+        inv.filter = srch;
+        inv.updateClientTargets();
     }
 }
