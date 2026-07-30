@@ -89,11 +89,33 @@ public class TransmutationScreenHandler extends ScreenHandler {
             long emc = EMCHelper.getEmcValue(newStack);
 
 
-            // TODO: confirm this works
-            while (transmutationInventory.getAvailableEMC() >= emc
-                           && transmutationInventory.player.inventory.addStack(ItemHelper.getNormalizedStack(stack))) {
+            long availableEmc = transmutationInventory.getAvailableEMC();
 
-                transmutationInventory.removeEmc(emc);
+            if (availableEmc < emc) {
+                return null;
+            }
+
+            int maxStackSize = newStack.getMaxCount();
+
+            int maxAffordable = (int) Math.min(maxStackSize, availableEmc / emc);
+            if (maxAffordable <= 0) {
+                return null;
+            }
+
+            ItemStack toInsert = ItemHelper.getNormalizedStack(stack);
+            toInsert.count = maxAffordable;
+
+            PlayerInventory inventory = transmutationInventory.player.inventory;
+
+            if (inventory.addStack(toInsert)) {
+                long totalEmcCost = emc * maxAffordable;
+                transmutationInventory.removeEmc(totalEmcCost);
+            } else {
+                int itemsActuallyTaken = maxAffordable - toInsert.count;
+                if (itemsActuallyTaken > 0) {
+                    long totalEmcCost = emc * itemsActuallyTaken;
+                    transmutationInventory.removeEmc(totalEmcCost);
+                }
             }
 
             transmutationInventory.updateClientTargets();

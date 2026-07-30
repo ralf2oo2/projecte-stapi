@@ -34,6 +34,9 @@ public class ConsumeSlot extends Slot {
 
         inv.addEmc(toAdd);
         this.markDirty();
+
+        // Might fix 0 size stacks being added
+        cache.count = 1;
         inv.handleKnowledge(cache);
     }
 
