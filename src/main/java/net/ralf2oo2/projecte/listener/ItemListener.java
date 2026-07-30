@@ -6,6 +6,7 @@ import net.modificationstation.stationapi.api.event.registry.ItemRegistryEvent;
 import net.modificationstation.stationapi.api.vanillafix.util.DyeColor;
 import net.ralf2oo2.projecte.ProjectE;
 import net.ralf2oo2.projecte.item.AlchemicalBagItem;
+import net.ralf2oo2.projecte.item.TomeItem;
 import net.ralf2oo2.projecte.item.TransmutationTabletItem;
 
 public class ItemListener {
@@ -92,6 +93,7 @@ public class ItemListener {
     public void registerItems(ItemRegistryEvent event) {
         transmutationTablet = new TransmutationTabletItem(ProjectE.NAMESPACE.id("transmutation_tablet"));
 
+        tome = new TomeItem(ProjectE.NAMESPACE.id("tome"));
 
         alchBag =  new Item[DyeColor.values().length];
         for(int i = 0; i < DyeColor.values().length; i++) {
