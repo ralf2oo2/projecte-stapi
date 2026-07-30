@@ -42,7 +42,7 @@ public class TransmutationInventory extends CombinedInventoryWrapper{
         this.learning = inventories[1];
         this.outputs = inventories[2];
 
-        if(player.world.isRemote) {
+        if(!player.world.isRemote) {
             updateClientTargets();
         }
     }
@@ -128,7 +128,7 @@ public class TransmutationInventory extends CombinedInventoryWrapper{
 
     public void updateClientTargets()
     {
-        if (!this.player.world.isRemote)
+        if (this.player.world.isRemote)
         {
             return;
         }

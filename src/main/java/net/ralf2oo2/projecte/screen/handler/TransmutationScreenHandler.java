@@ -126,7 +126,7 @@ public class TransmutationScreenHandler extends ScreenHandler {
 
     @Override
     public ItemStack onSlotClick(int index, int button, boolean shift, PlayerEntity player) {
-        if (player.world.isRemote && transmutationInventory.getInventoryForSlot(index) == transmutationInventory.outputs)
+        if (!player.world.isRemote && transmutationInventory.getInventoryForSlot(index) == transmutationInventory.outputs)
         {
             // TODO: syncing
 //            PacketHandler.sendToServer(new SearchUpdatePKT(transmutationInventory.getIndexFromSlot(slot), getSlot(slot).getStack()));
