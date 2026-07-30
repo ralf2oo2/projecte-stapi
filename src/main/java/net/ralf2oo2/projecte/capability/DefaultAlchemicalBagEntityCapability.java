@@ -17,7 +17,7 @@ public class DefaultAlchemicalBagEntityCapability extends AlchemicalBagEntityCap
     private final Map<DyeColor, Inventory> inventories = new EnumMap<>(DyeColor.class);
 
     @Override
-    protected @NotNull Inventory getBag(@NotNull DyeColor color) {
+    public @NotNull Inventory getBag(@NotNull DyeColor color) {
         if (!inventories.containsKey(color))
         {
             inventories.put(color, new SimpleInventory("Alchemical Bag", 104));

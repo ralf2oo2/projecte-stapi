@@ -127,11 +127,6 @@ public class TransmutationInventory extends CombinedInventoryWrapper{
 
     public void updateClientTargets()
     {
-//        if (!this.player.world.isRemote)
-//        {
-//            return;
-//        }
-
         knowledge.clear();
         knowledge.addAll(capability.getKnowledge());
 

@@ -54,7 +54,7 @@ public class PlayerEntityMixin {
             AlchemicalBagEntityCapability capability = CapabilityHelper.getCapability(player, AlchemicalBagEntityCapability.class);
 
             if(capability != null) {
-                capability.readNbt(nbt.getCompound("ProjectE_Knowledge"));
+                capability.readNbt(nbt.getCompound("ProjectE_Alchemical"));
             }
         }
     }

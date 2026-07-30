@@ -18,7 +18,7 @@ public abstract class AlchemicalBagEntityCapability extends EntityCapability {
      * @param color The bag color to acquire
      * @return The inventory representing this alchemical bag
      */
-    protected abstract @NotNull Inventory getBag(@NotNull DyeColor color);
+    public abstract @NotNull Inventory getBag(@NotNull DyeColor color);
 
     /**
      * Syncs the bag inventory associated with this color to the player provided (usually the owner of this capability instance)
