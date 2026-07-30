@@ -23,7 +23,7 @@ public class ScreenHandlerMixin {
     public int projecte_cancleStackTakeWhenNoEmc(ItemStack instance, Operation<Integer> original, int index, int button, boolean shift, PlayerEntity player) {
         if(((ScreenHandler)(Object)this) instanceof TransmutationScreenHandler) {
             if(slots.get(index) instanceof OutputSlot outputSlot) {
-                if(outputSlot.canTakeAmount(1)) {
+                if(outputSlot.canTakeAmount(1) && player.inventory.getCursorStack().count < player.inventory.getCursorStack().getMaxCount()) {
                     outputSlot.consumeEmc(outputSlot.getStack(), 1);
                     return original.call(instance);
                 } else {
