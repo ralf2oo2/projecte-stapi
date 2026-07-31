@@ -1,6 +1,10 @@
 package net.ralf2oo2.projecte.listener;
 
+import net.mine_diver.unsafeevents.listener.EventListener;
 import net.minecraft.block.Block;
+import net.modificationstation.stationapi.api.event.registry.BlockRegistryEvent;
+import net.ralf2oo2.projecte.ProjectE;
+import net.ralf2oo2.projecte.block.AlchemicalChestBlock;
 
 public class BlockListener {
     public static Block alchChest;
@@ -23,4 +27,9 @@ public class BlockListener {
     public static Block relayMK3;
     public static Block novaCatalyst;
     public static Block novaCataclysm;
+
+    @EventListener
+    public void registerBlocks(BlockRegistryEvent event) {
+        alchChest = new AlchemicalChestBlock(ProjectE.NAMESPACE.id("alchemical_chest"));
+    }
 }

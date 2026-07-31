@@ -1,0 +1,19 @@
+{
+  "parent": "minecraft:block/cube",
+  "display": {
+    "gui": {
+      "rotation": [ 30, 135, 0 ],
+      "translation": [ 0, 0, 0],
+      "scale":[ 0.625, 0.625, 0.625 ]
+    }
+  },
+  "textures": {
+    "particle": "projecte:block/alchemical_chest/front",
+    "down": "projecte:block/alchemical_chest/bottom",
+    "up": "projecte:block/alchemical_chest/top",
+    "north": "projecte:block/alchemical_chest/front",
+    "east": "projecte:block/alchemical_chest/side",
+    "south": "projecte:block/alchemical_chest/side",
+    "west": "projecte:block/alchemical_chest/side"
+  }
+}

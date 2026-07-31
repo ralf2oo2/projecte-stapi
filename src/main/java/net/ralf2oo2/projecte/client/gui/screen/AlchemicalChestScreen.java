@@ -4,7 +4,9 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screen.ingame.HandledScreen;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.Inventory;
+import net.ralf2oo2.projecte.block.entity.AlchemicalChestBlockEntity;
 import net.ralf2oo2.projecte.screen.handler.AlchemicalBagScreenHandler;
+import net.ralf2oo2.projecte.screen.handler.AlchemicalChestScreenHandler;
 import org.lwjgl.opengl.GL11;
 
 public class AlchemicalChestScreen extends HandledScreen {
@@ -12,6 +14,12 @@ public class AlchemicalChestScreen extends HandledScreen {
 
     public AlchemicalChestScreen(PlayerInventory playerInventory, Inventory alchemicalBagInventory) {
         super(new AlchemicalBagScreenHandler(playerInventory, alchemicalBagInventory));
+        this.backgroundWidth = 255;
+        this.backgroundHeight = 230;
+    }
+
+    public AlchemicalChestScreen(PlayerInventory playerInventory, AlchemicalChestBlockEntity blockEntity) {
+        super(new AlchemicalChestScreenHandler(playerInventory, blockEntity));
         this.backgroundWidth = 255;
         this.backgroundHeight = 230;
     }

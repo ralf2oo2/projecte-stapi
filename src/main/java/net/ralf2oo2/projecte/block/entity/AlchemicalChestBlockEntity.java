@@ -1,32 +1,18 @@
-package net.ralf2oo2.projecte.inventory;
+package net.ralf2oo2.projecte.block.entity;
 
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.Inventory;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NbtCompound;
+import net.ralf2oo2.projecte.util.InventoryHelper;
 
-import java.util.List;
+public class AlchemicalChestBlockEntity extends EmcBlockEntity implements Inventory {
 
-public class SimpleInventory implements Inventory {
-    private String name;
-    private int size;
-    private ItemStack[] stacks;
-    private MarkDirtyCallback markDirtyCallback = null;
+    private final ItemStack[] stacks = new ItemStack[104];
 
-    public SimpleInventory(String name, int size) {
-        this.name = name;
-        this.size = size;
-        this.stacks = new ItemStack[size];
-    }
-
-    public SimpleInventory(String name, int size, MarkDirtyCallback markDirtyCallback) {
-        this.name = name;
-        this.size = size;
-        this.stacks = new ItemStack[size];
-        this.markDirtyCallback = markDirtyCallback;
-    }
-
-    public void setMarkDirtyCallback(MarkDirtyCallback callback) {
-        this.markDirtyCallback = callback;
+    @Override
+    public int size() {
+        return 104;
     }
 
     @Override
@@ -67,13 +53,8 @@ public class SimpleInventory implements Inventory {
     }
 
     @Override
-    public int size() {
-        return this.size;
-    }
-
-    @Override
     public String getName() {
-        return this.name;
+        return "Alchemical Chest";
     }
 
     @Override
@@ -82,18 +63,21 @@ public class SimpleInventory implements Inventory {
     }
 
     @Override
-    public void markDirty() {
-        if(markDirtyCallback != null) {
-            markDirtyCallback.markDirty();
-        }
-    }
-
-    public interface MarkDirtyCallback {
-        void markDirty();
+    public boolean canPlayerUse(PlayerEntity player) {
+        return true;
     }
 
     @Override
-    public boolean canPlayerUse(PlayerEntity player) {
-        return true;
+    public void readNbt(NbtCompound tag) {
+        super.readNbt(tag);
+        if(tag.contains("items")) {
+            InventoryHelper.readNbtList(tag.getList("items"), this);
+        }
+    }
+
+    @Override
+    public void writeNbt(NbtCompound tag) {
+        super.writeNbt(tag);
+        tag.put("items", InventoryHelper.toNbtList(this));
     }
 }
