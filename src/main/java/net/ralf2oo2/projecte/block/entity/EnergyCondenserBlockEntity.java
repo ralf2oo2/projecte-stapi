@@ -25,7 +25,6 @@ public class EnergyCondenserBlockEntity extends EmcBlockEntity implements EmcAcc
     private final Inventory automationInventory = createAutomationInventory();
     private final Inventory lock = new SimpleInventory("lock", 1, this::markDirty);
     private boolean isAcceptingEmc;
-    private int ticksSinceSync;
     public long displayEmc;
     public long requiredEmc;
 

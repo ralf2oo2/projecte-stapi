@@ -19,6 +19,7 @@ item.projecte.red_alchemical_bag.name=Alchemy Bag (Red)
 item.projecte.black_alchemical_bag.name=Alchemy Bag (Black)
 
 tile.projecte.alchemical_chest.name=Alchemical Chest
+tile.projecte.energy_condenser.name=Energy Condenser
 tile.projecte.transmutation_table.name=Transmutation Tablet
 
 # original translation keys

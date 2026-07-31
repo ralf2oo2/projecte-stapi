@@ -1,0 +1,19 @@
+{
+  "parent": "minecraft:block/cube",
+  "display": {
+    "gui": {
+      "rotation": [ 30, 135, 0 ],
+      "translation": [ 0, 0, 0],
+      "scale":[ 0.625, 0.625, 0.625 ]
+    }
+  },
+  "textures": {
+    "particle": "projecte:block/energy_condenser/front",
+    "down": "projecte:block/energy_condenser/bottom",
+    "up": "projecte:block/energy_condenser/top",
+    "north": "projecte:block/energy_condenser/front",
+    "east": "projecte:block/energy_condenser/side",
+    "south": "projecte:block/energy_condenser/side",
+    "west": "projecte:block/energy_condenser/side"
+  }
+}
