@@ -2,16 +2,20 @@ package net.ralf2oo2.projecte.listener;
 
 import net.danygames2014.nyalib.capability.CapabilityHelper;
 import net.mine_diver.unsafeevents.listener.EventListener;
+import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.Inventory;
 import net.modificationstation.stationapi.api.client.gui.screen.GuiHandler;
 import net.modificationstation.stationapi.api.event.registry.GuiHandlerRegistryEvent;
 import net.modificationstation.stationapi.api.mod.entrypoint.Entrypoint;
+import net.modificationstation.stationapi.api.network.packet.MessagePacket;
 import net.modificationstation.stationapi.api.util.Namespace;
 import net.ralf2oo2.projecte.api.capability.AlchemicalBagEntityCapability;
 import net.ralf2oo2.projecte.block.entity.AlchemicalChestBlockEntity;
+import net.ralf2oo2.projecte.block.entity.EnergyCondenserBlockEntity;
 import net.ralf2oo2.projecte.client.gui.screen.AlchemicalChestScreen;
+import net.ralf2oo2.projecte.client.gui.screen.EnergyCondenserScreen;
 import net.ralf2oo2.projecte.client.gui.screen.TransmutationScreen;
 import net.ralf2oo2.projecte.inventory.SimpleInventory;
 import net.ralf2oo2.projecte.inventory.TransmutationInventory;
@@ -26,6 +30,7 @@ public class ScreenHandlerListener {
         event.register(NAMESPACE.id("transmutation"), new GuiHandler((GuiHandler.ScreenFactoryNoMessage)this::openTransmutationScreen, () -> null));
         event.register(NAMESPACE.id("alchemical_chest"), new GuiHandler((GuiHandler.ScreenFactoryNoMessage)this::openAlchemicalChestScreen, AlchemicalChestBlockEntity::new));
         event.register(NAMESPACE.id("alchemical_bag"), new GuiHandler((GuiHandler.ScreenFactoryNoMessage)this::openAlchemicalBagScreen, () -> null));
+        event.register(NAMESPACE.id("energy_condenser"), new GuiHandler(this::openEnergyCondenserScreen, () -> null));
     }
 
     private Screen openTransmutationScreen(PlayerEntity player, Inventory inventory) {
@@ -40,6 +45,14 @@ public class ScreenHandlerListener {
         AlchemicalBagEntityCapability capability = CapabilityHelper.getCapability(player, AlchemicalBagEntityCapability.class);
         if(player.getHand() != null && capability != null &&  player.getHand().getItem() instanceof AlchemicalBagItem bag) {
             return new AlchemicalChestScreen(player.inventory, capability.getBag(bag.color));
+        }
+        return null;
+    }
+
+    private Screen openEnergyCondenserScreen(PlayerEntity player, Inventory inventory, MessagePacket message) {
+        BlockEntity blockEntity = player.world.getBlockEntity(message.ints[1], message.ints[2], message.ints[3]);
+        if(blockEntity instanceof EnergyCondenserBlockEntity condenser) {
+            return new EnergyCondenserScreen(player.inventory, condenser);
         }
         return null;
     }

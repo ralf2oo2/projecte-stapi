@@ -5,6 +5,7 @@ import net.modificationstation.stationapi.api.event.network.packet.PacketRegiste
 import net.ralf2oo2.projecte.ProjectE;
 import net.ralf2oo2.projecte.packet.KnowledgeSyncS2CPacket;
 import net.ralf2oo2.projecte.packet.SearchUpdateC2SPacket;
+import net.ralf2oo2.projecte.packet.SendLongPropertyS2CPacket;
 
 public class PacketListener {
 
@@ -12,5 +13,6 @@ public class PacketListener {
     public void registerPacketTypes(PacketRegisterEvent event) {
         event.register(ProjectE.NAMESPACE.id("search_update"), SearchUpdateC2SPacket.TYPE);
         event.register(ProjectE.NAMESPACE.id("knowledge_sync"), KnowledgeSyncS2CPacket.TYPE);
+        event.register(ProjectE.NAMESPACE.id("send_long_property"), SendLongPropertyS2CPacket.TYPE);
     }
 }

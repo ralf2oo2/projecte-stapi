@@ -1,6 +1,7 @@
 package net.ralf2oo2.projecte.util;
 
 import net.minecraft.block.Block;
+import net.minecraft.inventory.Inventory;
 import net.minecraft.item.*;
 import net.modificationstation.stationapi.api.block.BlockState;
 import net.modificationstation.stationapi.api.item.Items;
@@ -287,4 +288,50 @@ public final class ItemHelper
 //    {
 //        return new ItemStack(state.getBlock(), stackSize, state.getBlock().damageDropped(state));
 //    }
+
+    public static ItemStack insertItemStacked(Inventory inventory, ItemStack stack) {
+        if (inventory == null || stack == null || stack.count <= 0) {
+            return stack;
+        }
+
+        int size = inventory.size();
+
+        for (int i = 0; i < size; i++) {
+            ItemStack slotStack = inventory.getStack(i);
+
+            if (slotStack != null && slotStack.isItemEqual(stack)) {
+                int maxStack = Math.min(slotStack.getMaxCount(), inventory.getMaxCountPerStack());
+                int space = maxStack - slotStack.count;
+
+                if (space > 0) {
+                    int toInsert = Math.min(stack.count, space);
+                    slotStack.count += toInsert;
+                    stack.count -= toInsert;
+
+                    if (stack.count <= 0) {
+                        return null;
+                    }
+                }
+            }
+        }
+
+        for (int i = 0; i < size; i++) {
+            if (inventory.getStack(i) == null) {
+                int maxStack = Math.min(stack.getMaxCount(), inventory.getMaxCountPerStack());
+                int toInsert = Math.min(stack.count, maxStack);
+
+                ItemStack copy = stack.copy();
+                copy.count = toInsert;
+                inventory.setStack(i, copy);
+
+                stack.count -= toInsert;
+
+                if (stack.count <= 0) {
+                    return null;
+                }
+            }
+        }
+
+        return stack;
+    }
 }
