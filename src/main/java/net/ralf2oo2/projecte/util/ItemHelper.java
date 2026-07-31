@@ -49,23 +49,23 @@ public final class ItemHelper
         return (stack1.getItem() == stack2.getItem()) && (stack1.getDamage() == stack2.getDamage());
     }
 
-//    public static void compactInventory(IItemHandlerModifiable inventory)
-//    {
-//        List<ItemStack> temp = new ArrayList<>();
-//        for (int i = 0; i < inventory.getSlots(); i++)
-//        {
-//            if (!inventory.getStackInSlot(i).isEmpty())
-//            {
-//                temp.add(inventory.getStackInSlot(i));
-//                inventory.setStackInSlot(i, ItemStack.EMPTY);
-//            }
-//        }
-//
-//        for (ItemStack s : temp)
-//        {
-//            ItemHandlerHelper.insertItemStacked(inventory, s, false);
-//        }
-//    }
+    public static void compactInventory(Inventory inventory)
+    {
+        List<ItemStack> temp = new ArrayList<>();
+        for (int i = 0; i < inventory.size(); i++)
+        {
+            if (!StackUtil.isEmpty(inventory.getStack(i)))
+            {
+                temp.add(inventory.getStack(i));
+                inventory.setStack(i, null);
+            }
+        }
+
+        for (ItemStack s : temp)
+        {
+            insertItemStacked(inventory, s);
+        }
+    }
 
     /**
      * Compacts and sorts list of items, without regard for stack sizes

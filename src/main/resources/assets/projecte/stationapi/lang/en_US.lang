@@ -21,6 +21,9 @@ item.projecte.black_alchemical_bag.name=Alchemy Bag (Black)
 tile.projecte.alchemical_chest.name=Alchemical Chest
 tile.projecte.energy_condenser.name=Energy Condenser
 tile.projecte.energy_condenser_mk2.name=Energy Condenser MK2
+tile.projecte.energy_collector_mk1.name=Energy Collector MK1
+tile.projecte.energy_collector_mk2.name=Energy Collector MK2
+tile.projecte.energy_collector_mk3.name=Energy Collector MK3
 tile.projecte.transmutation_table.name=Transmutation Tablet
 
 # original translation keys

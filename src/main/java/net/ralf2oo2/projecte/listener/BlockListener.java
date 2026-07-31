@@ -4,10 +4,7 @@ import net.mine_diver.unsafeevents.listener.EventListener;
 import net.minecraft.block.Block;
 import net.modificationstation.stationapi.api.event.registry.BlockRegistryEvent;
 import net.ralf2oo2.projecte.ProjectE;
-import net.ralf2oo2.projecte.block.AlchemicalChestBlock;
-import net.ralf2oo2.projecte.block.EnergyCondenserBlock;
-import net.ralf2oo2.projecte.block.EnergyCondenserMK2Block;
-import net.ralf2oo2.projecte.block.TransmutationTableBlock;
+import net.ralf2oo2.projecte.block.*;
 
 public class BlockListener {
     public static Block alchChest;
@@ -38,5 +35,9 @@ public class BlockListener {
         transmuteStone = new TransmutationTableBlock(ProjectE.NAMESPACE.id("transmutation_table"));
         condenser = new EnergyCondenserBlock(ProjectE.NAMESPACE.id("energy_condenser"));
         condenserMk2 = new EnergyCondenserMK2Block(ProjectE.NAMESPACE.id("energy_condenser_mk2"));
+
+        collectorMK1 = new EnergyCollectorBlock(ProjectE.NAMESPACE.id("energy_collector_mk1"), 1);
+        collectorMK2 = new EnergyCollectorBlock(ProjectE.NAMESPACE.id("energy_collector_mk2"), 2);
+        collectorMK3 = new EnergyCollectorBlock(ProjectE.NAMESPACE.id("energy_collector_mk3"), 3);
     }
 }

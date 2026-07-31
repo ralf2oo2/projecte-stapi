@@ -1,0 +1,19 @@
+{
+  "parent": "minecraft:block/cube",
+  "display": {
+    "gui": {
+      "rotation": [ 30, 135, 0 ],
+      "translation": [ 0, 0, 0],
+      "scale":[ 0.625, 0.625, 0.625 ]
+    }
+  },
+  "textures": {
+    "particle": "projecte:block/energy_collector/mk3_top",
+    "down": "projecte:block/energy_collector/other",
+    "up": "projecte:block/energy_collector/mk3_top",
+    "north": "projecte:block/energy_collector/front",
+    "east": "projecte:block/energy_collector/other",
+    "south": "projecte:block/energy_collector/other",
+    "west": "projecte:block/energy_collector/other"
+  }
+}
