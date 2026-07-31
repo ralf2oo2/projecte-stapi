@@ -5,6 +5,7 @@ import net.minecraft.block.Block;
 import net.modificationstation.stationapi.api.event.registry.BlockRegistryEvent;
 import net.ralf2oo2.projecte.ProjectE;
 import net.ralf2oo2.projecte.block.AlchemicalChestBlock;
+import net.ralf2oo2.projecte.block.TransmutationTableBlock;
 
 public class BlockListener {
     public static Block alchChest;
@@ -31,5 +32,7 @@ public class BlockListener {
     @EventListener
     public void registerBlocks(BlockRegistryEvent event) {
         alchChest = new AlchemicalChestBlock(ProjectE.NAMESPACE.id("alchemical_chest"));
+
+        transmuteStone = new TransmutationTableBlock(ProjectE.NAMESPACE.id("transmutation_table"));
     }
 }
