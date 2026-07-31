@@ -14,7 +14,9 @@ import net.modificationstation.stationapi.api.util.Namespace;
 import net.ralf2oo2.projecte.api.capability.AlchemicalBagEntityCapability;
 import net.ralf2oo2.projecte.block.entity.AlchemicalChestBlockEntity;
 import net.ralf2oo2.projecte.block.entity.EnergyCondenserBlockEntity;
+import net.ralf2oo2.projecte.block.entity.EnergyCondenserMK2BlockEntity;
 import net.ralf2oo2.projecte.client.gui.screen.AlchemicalChestScreen;
+import net.ralf2oo2.projecte.client.gui.screen.EnergyCondenserMK2Screen;
 import net.ralf2oo2.projecte.client.gui.screen.EnergyCondenserScreen;
 import net.ralf2oo2.projecte.client.gui.screen.TransmutationScreen;
 import net.ralf2oo2.projecte.inventory.SimpleInventory;
@@ -31,6 +33,7 @@ public class ScreenHandlerListener {
         event.register(NAMESPACE.id("alchemical_chest"), new GuiHandler((GuiHandler.ScreenFactoryNoMessage)this::openAlchemicalChestScreen, AlchemicalChestBlockEntity::new));
         event.register(NAMESPACE.id("alchemical_bag"), new GuiHandler((GuiHandler.ScreenFactoryNoMessage)this::openAlchemicalBagScreen, () -> null));
         event.register(NAMESPACE.id("energy_condenser"), new GuiHandler(this::openEnergyCondenserScreen, () -> null));
+        event.register(NAMESPACE.id("energy_condenser_mk2"), new GuiHandler(this::openEnergyCondenserMK2Screen, () -> null));
     }
 
     private Screen openTransmutationScreen(PlayerEntity player, Inventory inventory) {
@@ -53,6 +56,14 @@ public class ScreenHandlerListener {
         BlockEntity blockEntity = player.world.getBlockEntity(message.ints[1], message.ints[2], message.ints[3]);
         if(blockEntity instanceof EnergyCondenserBlockEntity condenser) {
             return new EnergyCondenserScreen(player.inventory, condenser);
+        }
+        return null;
+    }
+
+    private Screen openEnergyCondenserMK2Screen(PlayerEntity player, Inventory inventory, MessagePacket message) {
+        BlockEntity blockEntity = player.world.getBlockEntity(message.ints[1], message.ints[2], message.ints[3]);
+        if(blockEntity instanceof EnergyCondenserMK2BlockEntity condenser) {
+            return new EnergyCondenserMK2Screen(player.inventory, condenser);
         }
         return null;
     }

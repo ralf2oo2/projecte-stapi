@@ -6,6 +6,7 @@ import net.modificationstation.stationapi.api.event.registry.BlockRegistryEvent;
 import net.ralf2oo2.projecte.ProjectE;
 import net.ralf2oo2.projecte.block.AlchemicalChestBlock;
 import net.ralf2oo2.projecte.block.EnergyCondenserBlock;
+import net.ralf2oo2.projecte.block.EnergyCondenserMK2Block;
 import net.ralf2oo2.projecte.block.TransmutationTableBlock;
 
 public class BlockListener {
@@ -36,5 +37,6 @@ public class BlockListener {
 
         transmuteStone = new TransmutationTableBlock(ProjectE.NAMESPACE.id("transmutation_table"));
         condenser = new EnergyCondenserBlock(ProjectE.NAMESPACE.id("energy_condenser"));
+        condenserMk2 = new EnergyCondenserMK2Block(ProjectE.NAMESPACE.id("energy_condenser_mk2"));
     }
 }
