@@ -6,6 +6,7 @@ import net.modificationstation.stationapi.api.event.registry.ItemRegistryEvent;
 import net.modificationstation.stationapi.api.vanillafix.util.DyeColor;
 import net.ralf2oo2.projecte.ProjectE;
 import net.ralf2oo2.projecte.item.AlchemicalBagItem;
+import net.ralf2oo2.projecte.item.KleinStarItem;
 import net.ralf2oo2.projecte.item.TomeItem;
 import net.ralf2oo2.projecte.item.TransmutationTabletItem;
 
@@ -13,7 +14,7 @@ public class ItemListener {
     public static Item philosStone;
     public static Item[] alchBag;
     public static Item repairTalisman;
-    public static Item kleinStars;
+    public static Item[] kleinStars;
     public static Item fuels;
     public static Item covalence;
     public static Item matter;
@@ -99,6 +100,12 @@ public class ItemListener {
         for(int i = 0; i < DyeColor.values().length; i++) {
             DyeColor color = DyeColor.values()[i];
             alchBag[i] = new AlchemicalBagItem(ProjectE.NAMESPACE.id(color.getName() + "_alchemical_bag"), color);
+        }
+
+        kleinStars = new Item[KleinStarItem.Tier.values().length];
+        for(int i = 0; i < KleinStarItem.Tier.values().length; i++) {
+            KleinStarItem.Tier tier = KleinStarItem.Tier.values()[i];
+            kleinStars[i] = new KleinStarItem(ProjectE.NAMESPACE.id("klein_star_" + tier.name), tier);
         }
     }
 }

@@ -10,6 +10,7 @@ import net.ralf2oo2.projecte.emc.EMCMappers;
 import net.ralf2oo2.projecte.emc.FuelMapper;
 import net.ralf2oo2.projecte.emc.SimpleStack;
 import net.ralf2oo2.projecte.emc.mapper.EMCMapper;
+import net.ralf2oo2.projecte.item.KleinStarItem;
 
 import java.math.BigInteger;
 import java.util.LinkedHashMap;
@@ -309,7 +310,7 @@ public final class EMCHelper
 
     public static long getKleinStarMaxEmc(ItemStack stack)
     {
-        return Constants.MAX_KLEIN_EMC[stack.getDamage()];
+        return Constants.MAX_KLEIN_EMC[((KleinStarItem)stack.getItem()).tier.ordinal()];
     }
 
     private static long getStoredEMCBonus(ItemStack stack) {

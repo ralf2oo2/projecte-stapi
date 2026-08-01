@@ -18,6 +18,13 @@ item.projecte.green_alchemical_bag.name=Alchemy Bag (Green)
 item.projecte.red_alchemical_bag.name=Alchemy Bag (Red)
 item.projecte.black_alchemical_bag.name=Alchemy Bag (Black)
 
+item.projecte.klein_star_ein.name=Klein Star Ein
+item.projecte.klein_star_zwei.name=Klein Star Zwei
+item.projecte.klein_star_drei.name=Klein Star Drei
+item.projecte.klein_star_vier.name=Klein Star Vier
+item.projecte.klein_star_sphere.name=Klein Star Sphere
+item.projecte.klein_star_omega.name=Klein Star Omega
+
 tile.projecte.alchemical_chest.name=Alchemical Chest
 tile.projecte.energy_condenser.name=Energy Condenser
 tile.projecte.energy_condenser_mk2.name=Energy Condenser MK2
