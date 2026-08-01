@@ -37,6 +37,9 @@ public class ScreenHandlerListener {
         event.register(NAMESPACE.id("anti_matter_relay_mk1"), new GuiHandler(this::openAntiMatterRelayMK1Screen, () -> null));
         event.register(NAMESPACE.id("anti_matter_relay_mk2"), new GuiHandler(this::openAntiMatterRelayMK2Screen, () -> null));
         event.register(NAMESPACE.id("anti_matter_relay_mk3"), new GuiHandler(this::openAntiMatterRelayMK3Screen, () -> null));
+
+        event.register(NAMESPACE.id("red_matter_furnace"), new GuiHandler(this::openRedMatterFurnaceScreen, () -> null));
+        event.register(NAMESPACE.id("dark_matter_furnace"), new GuiHandler(this::openDarkMatterFurnaceScreen, () -> null));
     }
 
     private Screen openTransmutationScreen(PlayerEntity player, Inventory inventory) {
@@ -115,6 +118,22 @@ public class ScreenHandlerListener {
         BlockEntity blockEntity = player.world.getBlockEntity(message.ints[1], message.ints[2], message.ints[3]);
         if(blockEntity instanceof AntiMatterRelayMK3BlockEntity relay) {
             return new AntiMatterRelayMK3Screen(player.inventory, relay);
+        }
+        return null;
+    }
+
+    private Screen openRedMatterFurnaceScreen(PlayerEntity player, Inventory inventory, MessagePacket message) {
+        BlockEntity blockEntity = player.world.getBlockEntity(message.ints[1], message.ints[2], message.ints[3]);
+        if(blockEntity instanceof RedMatterFurnaceBlockEntity furnace) {
+            return new RedMatterFurnaceScreen(player.inventory, furnace);
+        }
+        return null;
+    }
+
+    private Screen openDarkMatterFurnaceScreen(PlayerEntity player, Inventory inventory, MessagePacket message) {
+        BlockEntity blockEntity = player.world.getBlockEntity(message.ints[1], message.ints[2], message.ints[3]);
+        if(blockEntity instanceof DarkMatterFurnaceBlockEntity furnace) {
+            return new DarkMatterFurnaceScreen(player.inventory, furnace);
         }
         return null;
     }

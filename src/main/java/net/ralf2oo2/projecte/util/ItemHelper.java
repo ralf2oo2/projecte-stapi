@@ -334,4 +334,25 @@ public final class ItemHelper
 
         return stack;
     }
+
+    public static int getSpaceForStack(Inventory inventory, ItemStack stack) {
+        int remainingSpace = 0;
+        int maxStackSize = Math.min(stack.getMaxCount(), inventory.getMaxCountPerStack());
+
+        for (int i = 0; i < inventory.size(); i++) {
+            ItemStack targetSlot = inventory.getStack(i);
+
+            if (targetSlot == null) {
+                remainingSpace += maxStackSize;
+            } else if (targetSlot.isItemEqual(stack) && targetSlot.isItemEqual(stack)) {
+                remainingSpace += (maxStackSize - targetSlot.count);
+            }
+
+            if (remainingSpace >= stack.count) {
+                return stack.count;
+            }
+        }
+
+        return remainingSpace;
+    }
 }

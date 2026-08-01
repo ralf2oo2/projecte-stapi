@@ -1,0 +1,19 @@
+{
+  "parent": "minecraft:block/cube",
+  "display": {
+    "gui": {
+      "rotation": [ 30, 135, 0 ],
+      "translation": [ 0, 0, 0],
+      "scale":[ 0.625, 0.625, 0.625 ]
+    }
+  },
+  "textures": {
+    "particle": "projecte:block/matter_furnace/red_matter_on",
+    "down": "projecte:block/red_matter_block",
+    "up": "projecte:block/red_matter_block",
+    "north": "projecte:block/matter_furnace/red_matter_onc",
+    "east": "projecte:block/red_matter_block",
+    "south": "projecte:block/red_matter_block",
+    "west": "projecte:block/red_matter_block"
+  }
+}

@@ -20,5 +20,8 @@ public class BlockEntityListener {
         event.register(ProjectE.NAMESPACE.id("dark_matter_relay_mk1"), AntiMatterRelayMK1BlockEntity.class);
         event.register(ProjectE.NAMESPACE.id("dark_matter_relay_mk2"), AntiMatterRelayMK2BlockEntity.class);
         event.register(ProjectE.NAMESPACE.id("dark_matter_relay_mk3"), AntiMatterRelayMK3BlockEntity.class);
+
+        event.register(ProjectE.NAMESPACE.id("red_matter_furnace"), RedMatterFurnaceBlockEntity.class);
+        event.register(ProjectE.NAMESPACE.id("dark_matter_furnace"), DarkMatterFurnaceBlockEntity.class);
     }
 }

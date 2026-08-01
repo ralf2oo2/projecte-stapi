@@ -11,11 +11,9 @@ public class BlockListener {
     public static Block interdictionTorch;
     public static Block transmuteStone;
     public static Block condenser;
-    public static Block condenserMk2;
-    public static Block rmFurnaceOff;
-    public static Block rmFurnaceOn;
-    public static Block dmFurnaceOff;
-    public static Block dmFurnaceOn;
+    public static Block condenserMk2;;
+    public static Block redMatterFurnace;
+    public static Block darkMatterFurnace;
     public static Block dmPedestal;
     public static Block matterBlock;
     public static Block alchemicalCoalBlock;
@@ -52,5 +50,8 @@ public class BlockListener {
 
         novaCatalyst = new NovaCatalystBlock(ProjectE.NAMESPACE.id("nova_catalyst"));
         novaCataclysm = new NovaCataclysmBlock(ProjectE.NAMESPACE.id("nova_cataclysm"));
+
+        redMatterFurnace = new MatterFurnaceBlock(ProjectE.NAMESPACE.id("red_matter_furnace"), true);
+        darkMatterFurnace = new MatterFurnaceBlock(ProjectE.NAMESPACE.id("dark_matter_furnace"), false);
     }
 }
