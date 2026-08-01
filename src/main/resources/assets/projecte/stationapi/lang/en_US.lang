@@ -24,6 +24,9 @@ tile.projecte.energy_condenser_mk2.name=Energy Condenser MK2
 tile.projecte.energy_collector_mk1.name=Energy Collector MK1
 tile.projecte.energy_collector_mk2.name=Energy Collector MK2
 tile.projecte.energy_collector_mk3.name=Energy Collector MK3
+tile.projecte.anti_matter_relay_mk1.name=Anti-Matter Relay MK1
+tile.projecte.anti_matter_relay_mk2.name=Anti-Matter Relay MK2
+tile.projecte.anti_matter_relay_mk3.name=Anti-Matter Relay MK3
 tile.projecte.transmutation_table.name=Transmutation Tablet
 
 # original translation keys

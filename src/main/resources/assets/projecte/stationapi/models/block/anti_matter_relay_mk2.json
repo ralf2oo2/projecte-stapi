@@ -1,0 +1,19 @@
+{
+  "parent": "minecraft:block/cube",
+  "display": {
+    "gui": {
+      "rotation": [ 30, 135, 0 ],
+      "translation": [ 0, 0, 0],
+      "scale":[ 0.625, 0.625, 0.625 ]
+    }
+  },
+  "textures": {
+    "particle": "projecte:block/anti_matter_relay/mk2_top",
+    "down": "projecte:block/anti_matter_relay/other",
+    "up": "projecte:block/anti_matter_relay/mk2_top",
+    "north": "projecte:block/anti_matter_relay/front",
+    "east": "projecte:block/anti_matter_relay/other",
+    "south": "projecte:block/anti_matter_relay/other",
+    "west": "projecte:block/anti_matter_relay/other"
+  }
+}

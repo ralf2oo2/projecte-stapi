@@ -39,5 +39,9 @@ public class BlockListener {
         collectorMK1 = new EnergyCollectorBlock(ProjectE.NAMESPACE.id("energy_collector_mk1"), 1);
         collectorMK2 = new EnergyCollectorBlock(ProjectE.NAMESPACE.id("energy_collector_mk2"), 2);
         collectorMK3 = new EnergyCollectorBlock(ProjectE.NAMESPACE.id("energy_collector_mk3"), 3);
+
+        relay = new AntiMatterRelayBlock(ProjectE.NAMESPACE.id("anti_matter_relay_mk1"), 1);
+        relayMK2 = new AntiMatterRelayBlock(ProjectE.NAMESPACE.id("anti_matter_relay_mk2"), 1);
+        relayMK3 = new AntiMatterRelayBlock(ProjectE.NAMESPACE.id("anti_matter_relay_mk3"), 1);
     }
 }
