@@ -5,17 +5,17 @@ import net.minecraft.item.Item;
 import net.modificationstation.stationapi.api.event.registry.ItemRegistryEvent;
 import net.modificationstation.stationapi.api.vanillafix.util.DyeColor;
 import net.ralf2oo2.projecte.ProjectE;
-import net.ralf2oo2.projecte.item.AlchemicalBagItem;
-import net.ralf2oo2.projecte.item.KleinStarItem;
-import net.ralf2oo2.projecte.item.TomeItem;
-import net.ralf2oo2.projecte.item.TransmutationTabletItem;
+import net.ralf2oo2.projecte.item.*;
+import net.ralf2oo2.projecte.util.Constants;
 
 public class ItemListener {
     public static Item philosStone;
     public static Item[] alchBag;
     public static Item repairTalisman;
     public static Item[] kleinStars;
-    public static Item fuels;
+    public static Item alchemicalCoal;
+    public static Item mobiusFuel;
+    public static Item aeternalisFuel;
     public static Item covalence;
     public static Item matter;
 
@@ -95,6 +95,10 @@ public class ItemListener {
         transmutationTablet = new TransmutationTabletItem(ProjectE.NAMESPACE.id("transmutation_tablet"));
 
         tome = new TomeItem(ProjectE.NAMESPACE.id("tome"));
+
+        alchemicalCoal = new FuelItem(ProjectE.NAMESPACE.id("alchemical_coal"), Constants.ALCH_BURN_TIME);
+        mobiusFuel = new FuelItem(ProjectE.NAMESPACE.id("mobius_fuel"), Constants.MOBIUS_BURN_TIME);
+        aeternalisFuel = new FuelItem(ProjectE.NAMESPACE.id("aeternalis_fuel"), Constants.AETERNALIS_BURN_TIME);
 
         alchBag =  new Item[DyeColor.values().length];
         for(int i = 0; i < DyeColor.values().length; i++) {

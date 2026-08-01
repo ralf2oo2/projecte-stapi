@@ -18,7 +18,9 @@ public class BlockListener {
     public static Block dmFurnaceOn;
     public static Block dmPedestal;
     public static Block matterBlock;
-    public static Block fuelBlock;
+    public static Block alchemicalCoalBlock;
+    public static Block mobiusFuelBlock;
+    public static Block aeternalisFuelBlock;
     public static Block collectorMK1;
     public static Block collectorMK2;
     public static Block collectorMK3;
@@ -35,6 +37,10 @@ public class BlockListener {
         transmuteStone = new TransmutationTableBlock(ProjectE.NAMESPACE.id("transmutation_table"));
         condenser = new EnergyCondenserBlock(ProjectE.NAMESPACE.id("energy_condenser"));
         condenserMk2 = new EnergyCondenserMK2Block(ProjectE.NAMESPACE.id("energy_condenser_mk2"));
+
+        alchemicalCoalBlock = new FuelBlock(ProjectE.NAMESPACE.id("alchemical_coal_block"));
+        mobiusFuelBlock = new FuelBlock(ProjectE.NAMESPACE.id("mobius_fuel_block"));
+        aeternalisFuelBlock = new FuelBlock(ProjectE.NAMESPACE.id("aeternalis_fuel_block"));
 
         collectorMK1 = new EnergyCollectorBlock(ProjectE.NAMESPACE.id("energy_collector_mk1"), 1);
         collectorMK2 = new EnergyCollectorBlock(ProjectE.NAMESPACE.id("energy_collector_mk2"), 2);

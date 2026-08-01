@@ -25,13 +25,13 @@ public class FuelMapper {
         addToMap(new ItemStack(Item.COAL));
         addToMap(new ItemStack(Item.GUNPOWDER));
         addToMap(new ItemStack(Item.GLOWSTONE_DUST));
-//        addToMap(new ItemStack(ItemListener.fuels, 1, 0));
-//        addToMap(new ItemStack(BlockListener.fuelBlock, 1, 0));
-//        addToMap(new ItemStack(Block.GLOWSTONE));
-//        addToMap(new ItemStack(ItemListener.fuels, 1, 1));
-//        addToMap(new ItemStack(BlockListener.fuelBlock, 1, 1));
-//        addToMap(new ItemStack(ItemListener.fuels, 1, 2));
-//        addToMap(new ItemStack(BlockListener.fuelBlock, 1, 2));
+        addToMap(new ItemStack(ItemListener.alchemicalCoal, 1));
+        addToMap(new ItemStack(BlockListener.alchemicalCoalBlock, 1));
+        addToMap(new ItemStack(Block.GLOWSTONE));
+        addToMap(new ItemStack(ItemListener.mobiusFuel, 1));
+        addToMap(new ItemStack(BlockListener.mobiusFuelBlock, 1));
+        addToMap(new ItemStack(ItemListener.aeternalisFuel, 1));
+        addToMap(new ItemStack(BlockListener.aeternalisFuelBlock, 1));
 
         FUEL_MAP.sort(Comparator.comparing(EMCMappers::getEmcValue));
     }

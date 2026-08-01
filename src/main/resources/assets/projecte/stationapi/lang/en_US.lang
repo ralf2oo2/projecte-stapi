@@ -25,6 +25,10 @@ item.projecte.klein_star_vier.name=Klein Star Vier
 item.projecte.klein_star_sphere.name=Klein Star Sphere
 item.projecte.klein_star_omega.name=Klein Star Omega
 
+item.projecte.alchemical_coal.name=Alchemical Coal
+item.projecte.mobius_fuel.name=Mobius Fuel
+item.projecte.aeternalis_fuel.name=Aeternalis Fuel
+
 tile.projecte.alchemical_chest.name=Alchemical Chest
 tile.projecte.energy_condenser.name=Energy Condenser
 tile.projecte.energy_condenser_mk2.name=Energy Condenser MK2
@@ -35,6 +39,10 @@ tile.projecte.anti_matter_relay_mk1.name=Anti-Matter Relay MK1
 tile.projecte.anti_matter_relay_mk2.name=Anti-Matter Relay MK2
 tile.projecte.anti_matter_relay_mk3.name=Anti-Matter Relay MK3
 tile.projecte.transmutation_table.name=Transmutation Tablet
+
+tile.projecte.alchemical_coal_block.name=Alchemical Coal Block
+tile.projecte.mobius_fuel_block.name=Mobius Fuel Block
+tile.projecte.aeternalis_fuel_block.name=Aeternalis Fuel Block
 
 # original translation keys
 item.pe_philosophers_stone.name=Philosopher's Stone
