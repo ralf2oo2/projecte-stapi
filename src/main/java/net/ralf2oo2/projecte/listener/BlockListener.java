@@ -49,5 +49,8 @@ public class BlockListener {
         relay = new AntiMatterRelayBlock(ProjectE.NAMESPACE.id("anti_matter_relay_mk1"), 1);
         relayMK2 = new AntiMatterRelayBlock(ProjectE.NAMESPACE.id("anti_matter_relay_mk2"), 2);
         relayMK3 = new AntiMatterRelayBlock(ProjectE.NAMESPACE.id("anti_matter_relay_mk3"), 3);
+
+        novaCatalyst = new NovaCatalystBlock(ProjectE.NAMESPACE.id("nova_catalyst"));
+        novaCataclysm = new NovaCataclysmBlock(ProjectE.NAMESPACE.id("nova_cataclysm"));
     }
 }

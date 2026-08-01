@@ -115,15 +115,12 @@ public class WorldHelper {
     /**
      * Equivalent of World.newExplosion
      */
-//    public static void createNovaExplosion(World world, Entity exploder, double x, double y, double z, float power)
-//    {
-//        NovaExplosion explosion = new NovaExplosion(world, exploder, x, y, z, power, true, true);
-//        if (!MinecraftForge.EVENT_BUS.post(new ExplosionEvent.Start(world, explosion)))
-//        {
-//            explosion.doExplosionA();
-//            explosion.doExplosionB(true);
-//        }
-//    }
+    public static void createNovaExplosion(World world, Entity exploder, double x, double y, double z, float power)
+    {
+        NovaExplosion explosion = new NovaExplosion(world, exploder, x, y, z, power);
+        explosion.explode();
+        explosion.playExplosionSound(true);
+    }
 
     public static void dropInventory(Inventory inv, World world, BlockPos pos)
     {

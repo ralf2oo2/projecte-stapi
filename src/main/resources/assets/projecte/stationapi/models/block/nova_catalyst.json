@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/cube_bottom_top",
+  "textures": {
+    "bottom": "projecte:block/explosive/bottom",
+    "top": "projecte:block/explosive/top",
+    "side": "projecte:block/explosive/catalyst_side"
+  }
+}

@@ -44,6 +44,9 @@ tile.projecte.alchemical_coal_block.name=Alchemical Coal Block
 tile.projecte.mobius_fuel_block.name=Mobius Fuel Block
 tile.projecte.aeternalis_fuel_block.name=Aeternalis Fuel Block
 
+tile.projecte.nova_catalyst.name=Nova Catalyst
+tile.projecte.nova_cataclysm.name=Nova Cataclysm
+
 # original translation keys
 item.pe_philosophers_stone.name=Philosopher's Stone
 item.pe_alchemical_bag.name=Alchemical Bag
