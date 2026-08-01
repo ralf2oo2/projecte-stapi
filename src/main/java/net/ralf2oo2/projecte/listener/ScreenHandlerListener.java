@@ -14,7 +14,6 @@ import net.modificationstation.stationapi.api.util.Namespace;
 import net.ralf2oo2.projecte.api.capability.AlchemicalBagEntityCapability;
 import net.ralf2oo2.projecte.block.entity.*;
 import net.ralf2oo2.projecte.client.gui.screen.*;
-import net.ralf2oo2.projecte.inventory.SimpleInventory;
 import net.ralf2oo2.projecte.inventory.TransmutationInventory;
 import net.ralf2oo2.projecte.item.AlchemicalBagItem;
 
@@ -34,6 +33,10 @@ public class ScreenHandlerListener {
         event.register(NAMESPACE.id("energy_collector_mk1"), new GuiHandler(this::openEnergyCollectorMK1Screen, () -> null));
         event.register(NAMESPACE.id("energy_collector_mk2"), new GuiHandler(this::openEnergyCollectorMK2Screen, () -> null));
         event.register(NAMESPACE.id("energy_collector_mk3"), new GuiHandler(this::openEnergyCollectorMK3Screen, () -> null));
+
+        event.register(NAMESPACE.id("anti_matter_relay_mk1"), new GuiHandler(this::openAntiMatterRelayMK1Screen, () -> null));
+        event.register(NAMESPACE.id("anti_matter_relay_mk2"), new GuiHandler(this::openAntiMatterRelayMK2Screen, () -> null));
+        event.register(NAMESPACE.id("anti_matter_relay_mk3"), new GuiHandler(this::openAntiMatterRelayMK3Screen, () -> null));
     }
 
     private Screen openTransmutationScreen(PlayerEntity player, Inventory inventory) {
@@ -88,6 +91,30 @@ public class ScreenHandlerListener {
         BlockEntity blockEntity = player.world.getBlockEntity(message.ints[1], message.ints[2], message.ints[3]);
         if(blockEntity instanceof EnergyCollectorMK3BlockEntity collector) {
             return new EnergyCollectorMK3Screen(player.inventory, collector);
+        }
+        return null;
+    }
+
+    private Screen openAntiMatterRelayMK1Screen(PlayerEntity player, Inventory inventory, MessagePacket message) {
+        BlockEntity blockEntity = player.world.getBlockEntity(message.ints[1], message.ints[2], message.ints[3]);
+        if(blockEntity instanceof AntiMatterRelayMK1BlockEntity relay) {
+            return new AntiMatterRelayMK1Screen(player.inventory, relay);
+        }
+        return null;
+    }
+
+    private Screen openAntiMatterRelayMK2Screen(PlayerEntity player, Inventory inventory, MessagePacket message) {
+        BlockEntity blockEntity = player.world.getBlockEntity(message.ints[1], message.ints[2], message.ints[3]);
+        if(blockEntity instanceof AntiMatterRelayMK2BlockEntity relay) {
+            return new AntiMatterRelayMK2Screen(player.inventory, relay);
+        }
+        return null;
+    }
+
+    private Screen openAntiMatterRelayMK3Screen(PlayerEntity player, Inventory inventory, MessagePacket message) {
+        BlockEntity blockEntity = player.world.getBlockEntity(message.ints[1], message.ints[2], message.ints[3]);
+        if(blockEntity instanceof AntiMatterRelayMK3BlockEntity relay) {
+            return new AntiMatterRelayMK3Screen(player.inventory, relay);
         }
         return null;
     }

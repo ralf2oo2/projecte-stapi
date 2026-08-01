@@ -13,7 +13,6 @@ import net.ralf2oo2.projecte.inventory.CombinedInventoryWrapper;
 import net.ralf2oo2.projecte.inventory.RangedInventoryWrapper;
 import net.ralf2oo2.projecte.inventory.SimpleInventory;
 import net.ralf2oo2.projecte.screen.handler.EnergyCollectorMK1ScreenHandler;
-import net.ralf2oo2.projecte.screen.handler.EnergyCondenserScreenHandler;
 import net.ralf2oo2.projecte.util.*;
 import org.jetbrains.annotations.NotNull;
 
@@ -337,19 +336,18 @@ public class EnergyCollectorMK1BlockEntity extends EmcBlockEntity implements Emc
             Direction dir = entry.getKey();
             BlockEntity blockEntity = entry.getValue();
 
-            // TODO: add this when relays are ported
-//            if (blockEntity instanceof RelayMK3Tile)
-//            {
-//                ((RelayMK3Tile) blockEntity).addBonus(dir, 0.5);
-//            }
-//            else if (blockEntity instanceof RelayMK2Tile)
-//            {
-//                ((RelayMK2Tile) blockEntity).addBonus(dir, 0.15);
-//            }
-//            else if (blockEntity instanceof RelayMK1Tile)
-//            {
-//                ((RelayMK1Tile) blockEntity).addBonus(dir, 0.05);
-//            }
+            if (blockEntity instanceof AntiMatterRelayMK1BlockEntity)
+            {
+                ((AntiMatterRelayMK1BlockEntity) blockEntity).addBonus(dir, 0.5);
+            }
+            else if (blockEntity instanceof AntiMatterRelayMK2BlockEntity)
+            {
+                ((AntiMatterRelayMK2BlockEntity) blockEntity).addBonus(dir, 0.15);
+            }
+            else if (blockEntity instanceof AntiMatterRelayMK3BlockEntity)
+            {
+                ((AntiMatterRelayMK3BlockEntity) blockEntity).addBonus(dir, 0.05);
+            }
         }
     }
 
