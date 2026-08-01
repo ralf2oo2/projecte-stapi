@@ -1,6 +1,8 @@
 package net.ralf2oo2.projecte.block.entity;
 
+import net.danygames2014.nyalib.item.block.ItemHandler;
 import net.minecraft.inventory.Inventory;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.util.math.BlockPos;
@@ -13,11 +15,12 @@ import net.ralf2oo2.projecte.screen.handler.AntiMatterRelayMK1ScreenHandler;
 import net.ralf2oo2.projecte.screen.slot.SlotPredicates;
 import net.ralf2oo2.projecte.util.*;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class AntiMatterRelayMK1BlockEntity extends EmcBlockEntity implements EmcAcceptor, EmcProvider {
+public class AntiMatterRelayMK1BlockEntity extends EmcBlockEntity implements EmcAcceptor, EmcProvider, ItemHandler {
     private final Inventory input;
     private final Inventory output = new SimpleInventory("output", 1);
     private final long chargeRate;
@@ -115,11 +118,6 @@ public class AntiMatterRelayMK1BlockEntity extends EmcBlockEntity implements Emc
                     }
                 }
             }
-            if (!openHandlers.isEmpty()) {
-                for (AntiMatterRelayMK1ScreenHandler handler : openHandlers) {
-                    handler.sendContentUpdates();
-                }
-            }
         }
 
         ItemStack chargeable = getCharging();
@@ -127,6 +125,12 @@ public class AntiMatterRelayMK1BlockEntity extends EmcBlockEntity implements Emc
         if (!StackUtil.isEmpty(chargeable) && this.getStoredEmc() > 0 && chargeable.getItem() instanceof ItemEmc)
         {
             chargeItem(chargeable);
+        }
+
+        if (!openHandlers.isEmpty()) {
+            for (AntiMatterRelayMK1ScreenHandler handler : openHandlers) {
+                handler.sendContentUpdates();
+            }
         }
     }
 
@@ -245,5 +249,208 @@ public class AntiMatterRelayMK1BlockEntity extends EmcBlockEntity implements Emc
         long toRemove = Math.min(currentEMC, toExtract);
         currentEMC -= toRemove;
         return toRemove;
+    }
+
+    // ItemHandler
+    @Override
+    public boolean canInsertItem(@Nullable Direction side) {
+        return true;
+    }
+
+    @Override
+    public boolean canExtractItem(@Nullable Direction side) {
+        return side == Direction.DOWN;
+    }
+
+    @Override
+    public boolean canConnectItem(Direction side) {
+        return true;
+    }
+
+    @Override
+    public int getItemSlots(@Nullable Direction side) {
+        return side == Direction.DOWN ? getOutput().size() : getInput().size();
+    }
+
+    @Override
+    public ItemStack insertItem(ItemStack stack, int slot, @Nullable Direction side) {
+        if (StackUtil.isEmpty(stack)) {
+            return null;
+        }
+
+        if (side == Direction.DOWN) {
+            if (!SlotPredicates.IITEMEMC.test(stack)) {
+                return stack;
+            }
+
+            ItemStack currentSlotStack = getOutput().getStack(slot);
+            if (StackUtil.isEmpty(currentSlotStack)) {
+                getOutput().setStack(slot, stack.copy());
+                return null;
+            } else if (ItemHelper.areItemStacksEqual(currentSlotStack, stack)) {
+                int max = Math.min(stack.getMaxCount(), getOutput().getMaxCountPerStack());
+                int space = max - currentSlotStack.count;
+                if (space <= 0) return stack;
+
+                int toInsert = Math.min(stack.count, space);
+                currentSlotStack.count += toInsert;
+                getOutput().markDirty();
+
+                if (stack.count - toInsert <= 0) {
+                    return null;
+                } else {
+                    ItemStack remainder = stack.copy();
+                    remainder.count -= toInsert;
+                    return remainder;
+                }
+            }
+            return stack;
+        }
+        else {
+            if (!SlotPredicates.RELAY_INV.test(stack)) {
+                return stack;
+            }
+
+            ItemStack currentSlotStack = getInput().getStack(slot);
+            if (StackUtil.isEmpty(currentSlotStack)) {
+                getInput().setStack(slot, stack.copy());
+                return null;
+            } else if (ItemHelper.areItemStacksEqual(currentSlotStack, stack)) {
+                int max = Math.min(stack.getMaxCount(), getInput().getMaxCountPerStack());
+                int space = max - currentSlotStack.count;
+                if (space <= 0) return stack;
+
+                int toInsert = Math.min(stack.count, space);
+                currentSlotStack.count += toInsert;
+                getInput().markDirty();
+
+                if (stack.count - toInsert <= 0) {
+                    return null;
+                } else {
+                    ItemStack remainder = stack.copy();
+                    remainder.count -= toInsert;
+                    return remainder;
+                }
+            }
+            return stack;
+        }
+    }
+
+    @Override
+    public ItemStack insertItem(ItemStack stack, @Nullable Direction side) {
+        if (StackUtil.isEmpty(stack)) {
+            return null;
+        }
+
+        ItemStack remainder = stack.copy();
+
+        for (int i = 0; i < getItemSlots(side); i++) {
+            remainder = insertItem(remainder, i, side);
+            if (StackUtil.isEmpty(remainder)) {
+                return null;
+            }
+        }
+
+        return remainder;
+    }
+
+    @Override
+    public ItemStack extractItem(int slot, int amount, @Nullable Direction side) {
+        if (side != Direction.DOWN) {
+            return null;
+        }
+
+        ItemStack stack = getOutput().getStack(slot);
+        if (StackUtil.isEmpty(stack)) {
+            return null;
+        }
+
+        if (stack.getItem() instanceof ItemEmc itemEmc) {
+            if (itemEmc.getStoredEmc(stack) < itemEmc.getMaximumEmc(stack)) {
+                return null;
+            }
+        }
+
+        int extractAmount = Math.min(amount, stack.count);
+        ItemStack extracted = stack.copy();
+        extracted.count = extractAmount;
+
+        stack.count -= extractAmount;
+        if (stack.count <= 0) {
+            getOutput().setStack(slot, null);
+        } else {
+            getOutput().markDirty();
+        }
+
+        return extracted;
+    }
+
+    @Override
+    public ItemStack getItem(int slot, @Nullable Direction side) {
+        Inventory target = (side == Direction.DOWN) ? getOutput() : getInput();
+        if (slot >= 0 && slot < target.size()) {
+            return target.getStack(slot);
+        }
+        return null;
+    }
+
+    @Override
+    public boolean setItem(ItemStack stack, int slot, @Nullable Direction side) {
+        Inventory target = (side == Direction.DOWN) ? getOutput() : getInput();
+        if (slot >= 0 && slot < target.size()) {
+            target.setStack(slot, stack);
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public ItemStack[] getInventory(@Nullable Direction side) {
+        Inventory target = (side == Direction.DOWN) ? getOutput() : getInput();
+        ItemStack[] inv = new ItemStack[target.size()];
+        for (int i = 0; i < inv.length; i++) {
+            inv[i] = target.getStack(i);
+        }
+        return inv;
+    }
+
+    // Temporary override until dany fixes bug
+    @Override
+    public ItemStack extractItem(Item item, int meta, int amount, @Nullable Direction side) {
+        ItemStack currentStack = null;
+        int remaining = amount;
+
+        for (int i = 0; i < getItemSlots(side); i++) {
+            if (remaining <= 0) {
+                break;
+            }
+
+            ItemStack slotStack = getItem(i, side);
+            if (StackUtil.isEmpty(slotStack)) {
+                continue;
+            }
+
+            if (currentStack != null) {
+                if (slotStack.isItemEqual(currentStack)) {
+                    ItemStack extractedStack = extractItem(i, remaining, side);
+
+                    if (!StackUtil.isEmpty(extractedStack)) {
+                        remaining -= extractedStack.count;
+                        currentStack.count += extractedStack.count;
+                    }
+                }
+            } else {
+                if (slotStack.isOf(item) && (meta == -1 || slotStack.getDamage() == meta)) {
+                    ItemStack extractedStack = extractItem(i, remaining, side);
+
+                    if (!StackUtil.isEmpty(extractedStack)) {
+                        remaining -= extractedStack.count;
+                        currentStack = extractedStack;
+                    }
+                }
+            }
+        }
+
+        return currentStack;
     }
 }

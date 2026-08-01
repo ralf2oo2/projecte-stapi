@@ -1,7 +1,9 @@
 package net.ralf2oo2.projecte.block.entity;
 
+import net.danygames2014.nyalib.item.block.ItemHandler;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.inventory.Inventory;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.modificationstation.stationapi.api.util.math.Direction;
@@ -13,14 +15,16 @@ import net.ralf2oo2.projecte.inventory.CombinedInventoryWrapper;
 import net.ralf2oo2.projecte.inventory.RangedInventoryWrapper;
 import net.ralf2oo2.projecte.inventory.SimpleInventory;
 import net.ralf2oo2.projecte.screen.handler.EnergyCollectorMK1ScreenHandler;
+import net.ralf2oo2.projecte.screen.slot.SlotPredicates;
 import net.ralf2oo2.projecte.util.*;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public class EnergyCollectorMK1BlockEntity extends EmcBlockEntity implements EmcProvider, EmcAcceptor {
+public class EnergyCollectorMK1BlockEntity extends EmcBlockEntity implements EmcProvider, EmcAcceptor, ItemHandler {
     private final Inventory input = new SimpleInventory("input", getInvSize());
     private final Inventory auxSlots = new SimpleInventory("auxSlots", 3);
     private final Inventory toSort = new CombinedInventoryWrapper(new RangedInventoryWrapper(auxSlots, UPGRADING_SLOT, UPGRADING_SLOT + 1), input);
@@ -368,5 +372,200 @@ public class EnergyCollectorMK1BlockEntity extends EmcBlockEntity implements Emc
             return toAdd;
         }
         return 0;
+    }
+
+    // ItemHandler
+    @Override
+    public boolean canInsertItem(@Nullable Direction side) {
+        return side != null && !side.getAxis().isVertical();
+    }
+
+    @Override
+    public boolean canExtractItem(@Nullable Direction side) {
+        return side != null && side.getAxis().isVertical();
+    }
+
+    @Override
+    public boolean canConnectItem(Direction side) {
+        return true;
+    }
+
+    @Override
+    public int getItemSlots(@Nullable Direction side) {
+        if (side != null && side.getAxis().isVertical()) {
+            return getAux().size();
+        }
+        return getInput().size();
+    }
+
+    @Override
+    public ItemStack insertItem(ItemStack stack, int slot, @Nullable Direction side) {
+        if (StackUtil.isEmpty(stack)) {
+            return null;
+        }
+
+        if (side != null && side.getAxis().isVertical()) {
+            return stack;
+        }
+
+        if (!SlotPredicates.COLLECTOR_INV.test(stack)) {
+            return stack;
+        }
+
+        ItemStack currentSlotStack = getInput().getStack(slot);
+
+        if (StackUtil.isEmpty(currentSlotStack)) {
+            getInput().setStack(slot, stack.copy());
+            return null;
+        } else if (ItemHelper.areItemStacksEqual(currentSlotStack, stack)) {
+            int max = Math.min(stack.getMaxCount(), getInput().getMaxCountPerStack());
+            int space = max - currentSlotStack.count;
+
+            if (space <= 0) {
+                return stack;
+            }
+
+            int toInsert = Math.min(stack.count, space);
+            currentSlotStack.count += toInsert;
+            getInput().markDirty();
+
+            if (stack.count - toInsert <= 0) {
+                return null;
+            } else {
+                ItemStack remainder = stack.copy();
+                remainder.count -= toInsert;
+                return remainder;
+            }
+        }
+
+        return stack;
+    }
+
+    @Override
+    public ItemStack insertItem(ItemStack stack, @Nullable Direction side) {
+        if (StackUtil.isEmpty(stack)) {
+            return null;
+        }
+
+        if (side != null && side.getAxis().isVertical()) {
+            return stack;
+        }
+
+        ItemStack remainder = stack.copy();
+        int slots = getItemSlots(side);
+
+        for (int i = 0; i < slots; i++) {
+            remainder = insertItem(remainder, i, side);
+            if (StackUtil.isEmpty(remainder)) {
+                return null;
+            }
+        }
+
+        return remainder;
+    }
+
+    @Override
+    public ItemStack extractItem(int slot, int amount, @Nullable Direction side) {
+        if (side == null || !side.getAxis().isVertical()) {
+            return null;
+        }
+
+        if (slot != EnergyCollectorMK1BlockEntity.UPGRADE_SLOT) {
+            return null;
+        }
+
+        ItemStack stack = getAux().getStack(slot);
+
+        if (StackUtil.isEmpty(stack)) {
+            return null;
+        }
+
+        int extractAmount = Math.min(amount, stack.count);
+        ItemStack extracted = stack.copy();
+        extracted.count = extractAmount;
+
+        stack.count -= extractAmount;
+        if (stack.count <= 0) {
+            getAux().setStack(slot, null);
+        } else {
+            getAux().markDirty();
+        }
+
+        return extracted;
+    }
+
+    @Override
+    public ItemStack getItem(int slot, @Nullable Direction side) {
+        if (side != null && side.getAxis().isVertical()) {
+            if (slot == UPGRADE_SLOT) {
+                return getAux().getStack(slot);
+            }
+            return null;
+        }
+
+        if (slot >= 0 && slot < getInput().size()) {
+            return getInput().getStack(slot);
+        }
+        return null;
+    }
+
+    @Override
+    public boolean setItem(ItemStack stack, int slot, @Nullable Direction side) {
+        Inventory target = (side != null && side.getAxis().isVertical()) ? getAux() : getInput();
+        if (slot >= 0 && slot < target.size()) {
+            target.setStack(slot, stack);
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public ItemStack[] getInventory(@Nullable Direction side) {
+        Inventory target = (side != null && side.getAxis().isVertical()) ? getAux() : getInput();
+        ItemStack[] inv = new ItemStack[target.size()];
+        for (int i = 0; i < inv.length; i++) {
+            inv[i] = target.getStack(i);
+        }
+        return inv;
+    }
+
+    // Temporary override until dany fixes bug
+    @Override
+    public ItemStack extractItem(Item item, int meta, int amount, @Nullable Direction side) {
+        ItemStack currentStack = null;
+        int remaining = amount;
+
+        for (int i = 0; i < getItemSlots(side); i++) {
+            if (remaining <= 0) {
+                break;
+            }
+
+            ItemStack slotStack = getItem(i, side);
+            if (StackUtil.isEmpty(slotStack)) {
+                continue;
+            }
+
+            if (currentStack != null) {
+                if (slotStack.isItemEqual(currentStack)) {
+                    ItemStack extractedStack = extractItem(i, remaining, side);
+
+                    if (!StackUtil.isEmpty(extractedStack)) {
+                        remaining -= extractedStack.count;
+                        currentStack.count += extractedStack.count;
+                    }
+                }
+            } else {
+                if (slotStack.isOf(item) && (meta == -1 || slotStack.getDamage() == meta)) {
+                    ItemStack extractedStack = extractItem(i, remaining, side);
+
+                    if (!StackUtil.isEmpty(extractedStack)) {
+                        remaining -= extractedStack.count;
+                        currentStack = extractedStack;
+                    }
+                }
+            }
+        }
+
+        return currentStack;
     }
 }
