@@ -38,7 +38,7 @@ public class AntiMatterRelayMK1BlockEntity extends EmcBlockEntity implements Emc
             @Override
             public void setStack(int slot, ItemStack stack)
             {
-                if(SlotPredicates.RELAY_INV.test(stack)) {
+                if(StackUtil.isEmpty(stack) || SlotPredicates.RELAY_INV.test(stack)) {
                     super.setStack(slot, stack);
                 }
             }

@@ -3,6 +3,12 @@
     "projecte:alchemical_chest",
     "projecte:transmutation_table",
     "projecte:energy_condenser",
-    "projecte:energy_condenser_mk2"
+    "projecte:energy_condenser_mk2",
+    "projecte:energy_collector_mk1",
+    "projecte:energy_collector_mk2",
+    "projecte:energy_collector_mk3",
+    "projecte:anti_matter_relay_mk1",
+    "projecte:anti_matter_relay_mk2",
+    "projecte:anti_matter_relay_mk3"
   ]
 }

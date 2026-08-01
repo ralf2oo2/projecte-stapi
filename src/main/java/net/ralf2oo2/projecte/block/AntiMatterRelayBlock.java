@@ -55,9 +55,9 @@ public class AntiMatterRelayBlock extends DirectionalBlock{
     @Override
     protected BlockEntity createBlockEntity() {
         return switch (tier) {
-            case 3 -> new AntiMatterRelayMK1BlockEntity();
+            case 3 -> new AntiMatterRelayMK3BlockEntity();
             case 2 -> new AntiMatterRelayMK2BlockEntity();
-            case 1 -> new AntiMatterRelayMK3BlockEntity();
+            case 1 -> new AntiMatterRelayMK1BlockEntity();
             default -> null;
         };
     }
