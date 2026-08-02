@@ -8,6 +8,7 @@ import net.modificationstation.stationapi.api.item.json.JsonItemKey;
 import net.modificationstation.stationapi.api.recipe.CraftingRegistry;
 import net.modificationstation.stationapi.impl.recipe.JsonCraftingShapeless;
 import net.ralf2oo2.projecte.ProjectE;
+import net.ralf2oo2.projecte.recipe.CovalenceRepairRecipe;
 import net.ralf2oo2.projecte.recipe.PhilosopherStoneSmeltingRecipe;
 import net.ralf2oo2.projecte.util.CraftingRegistryHelper;
 
@@ -20,12 +21,14 @@ import java.util.function.Function;
 public class JsonRecipeParserListener {
 
     private static boolean registeredPhiloSmeltingRecipe = false;
+    private static boolean registeredCovalenceRepairRecipe = false;
 
     @EventListener
     public void registerJsonRecipeParsers(JsonRecipeParserRegistryEvent event) {
         event.register(ProjectE.NAMESPACE)
                     .accept("crafting_shapeless_kleinstar", JsonRecipeParserListener::parseKleinStarRecipes)
-                    .accept("philosopher_stone_smelting", JsonRecipeParserListener::parsePhilosopherStoneSmelting);
+                    .accept("philosopher_stone_smelting", JsonRecipeParserListener::parsePhilosopherStoneSmelting)
+                    .accept("covalence_repair", JsonRecipeParserListener::parseCovalenceRepair);
 
     }
 
@@ -51,6 +54,13 @@ public class JsonRecipeParserListener {
         if(!registeredPhiloSmeltingRecipe) {
             CraftingRecipeManager.getInstance().getRecipes().add(new PhilosopherStoneSmeltingRecipe());
             registeredPhiloSmeltingRecipe = true;
+        }
+    }
+
+    private static void parseCovalenceRepair(URL recipe) {
+        if(!registeredCovalenceRepairRecipe) {
+            CraftingRecipeManager.getInstance().getRecipes().add(new CovalenceRepairRecipe());
+            registeredCovalenceRepairRecipe = true;
         }
     }
 }
