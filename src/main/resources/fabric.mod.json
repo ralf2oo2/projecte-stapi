@@ -26,7 +26,9 @@
     "stationapi:event_bus_client": [
       "net.ralf2oo2.projecte.listener.TooltipListener",
       "net.ralf2oo2.projecte.listener.ScreenHandlerListener",
-      "net.ralf2oo2.projecte.listener.EntityRendererListener"
+      "net.ralf2oo2.projecte.listener.EntityRendererListener",
+      "net.ralf2oo2.projecte.listener.KeyBindingListener",
+      "net.ralf2oo2.projecte.listener.KeyStateChangedListener"
     ],
     "stationapi:event_bus_server": [
       "net.ralf2oo2.projecte.listener.PlayerLoginListener"

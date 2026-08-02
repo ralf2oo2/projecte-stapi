@@ -121,5 +121,7 @@ public class ItemListener {
         lowCovalenceDust = new TemplateItem(ProjectE.NAMESPACE.id("low_covalence_dust"));
         mediumCovalenceDust = new TemplateItem(ProjectE.NAMESPACE.id("medium_covalence_dust"));
         highCovalenceDust = new TemplateItem(ProjectE.NAMESPACE.id("high_covalence_dust"));
+
+        philosStone = new PhilosophersStoneItem(ProjectE.NAMESPACE.id("philosophers_stone"));
     }
 }
