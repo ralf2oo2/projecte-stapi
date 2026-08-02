@@ -53,5 +53,7 @@ public class BlockListener {
 
         redMatterFurnace = new MatterFurnaceBlock(ProjectE.NAMESPACE.id("red_matter_furnace"), true);
         darkMatterFurnace = new MatterFurnaceBlock(ProjectE.NAMESPACE.id("dark_matter_furnace"), false);
+
+        interdictionTorch = new InterdictionTorchBlock(ProjectE.NAMESPACE.id("interdiction_torch"));
     }
 }

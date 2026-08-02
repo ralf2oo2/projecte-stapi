@@ -8,4 +8,7 @@ public class Config {
 
     @ConfigRoot(value = "miscelanious", visibleName = "Miscelanious")
     public static final MiscelaniousConfig MISCELANIOUS_CONFIG = new MiscelaniousConfig();
+
+    @ConfigRoot(value = "effect", visibleName = "Effect")
+    public static final EffectConfig EFFECT_CONFIG = new EffectConfig();
 }

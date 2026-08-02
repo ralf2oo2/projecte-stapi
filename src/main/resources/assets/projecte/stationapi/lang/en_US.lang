@@ -50,6 +50,8 @@ tile.projecte.nova_cataclysm.name=Nova Cataclysm
 tile.projecte.red_matter_furnace.name=Red Matter Furnace
 tile.projecte.dark_matter_furnace.name=Dark Matter Furnace
 
+tile.projecte.interdiction_torch.name=Interdiction Torch
+
 # original translation keys
 item.pe_philosophers_stone.name=Philosopher's Stone
 item.pe_alchemical_bag.name=Alchemical Bag

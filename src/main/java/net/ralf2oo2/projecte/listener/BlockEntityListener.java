@@ -23,5 +23,7 @@ public class BlockEntityListener {
 
         event.register(ProjectE.NAMESPACE.id("red_matter_furnace"), RedMatterFurnaceBlockEntity.class);
         event.register(ProjectE.NAMESPACE.id("dark_matter_furnace"), DarkMatterFurnaceBlockEntity.class);
+
+        event.register(ProjectE.NAMESPACE.id("interdiction_torch.json"), InterdictionTorchBlockEntity.class);
     }
 }

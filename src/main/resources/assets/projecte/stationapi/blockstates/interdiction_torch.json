@@ -1,0 +1,9 @@
+{
+  "variants": {
+    "facing=up": { "model": "projecte:block/interdiction_torch" },
+    "facing=east": { "model": "projecte:block/interdiction_torch_wall" },
+    "facing=south": { "model": "projecte:block/interdiction_torch_wall", "y": 90 },
+    "facing=west": { "model": "projecte:block/interdiction_torch_wall", "y": 180 },
+    "facing=north": { "model": "projecte:block/interdiction_torch_wall", "y": 270 }
+  }
+}

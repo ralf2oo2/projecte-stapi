@@ -6,18 +6,23 @@ import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.ItemEntity;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.MobEntity;
 import net.minecraft.entity.mob.*;
 import net.minecraft.entity.passive.*;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.projectile.ArrowEntity;
 import net.minecraft.inventory.Inventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import net.modificationstation.stationapi.api.block.BlockState;
+import net.modificationstation.stationapi.api.entity.player.PlayerHelper;
 import net.modificationstation.stationapi.api.util.math.Direction;
 import net.modificationstation.stationapi.api.util.math.StationBlockPos;
 import net.ralf2oo2.projecte.ProjectE;
+import net.ralf2oo2.projecte.config.Config;
 
 import java.util.*;
 
@@ -280,5 +285,257 @@ public class WorldHelper {
         return null;
     }
 
-    // TODO: port rest of class if needed
+    /**
+     * Wrapper around BlockPos.getAllInBox() with an AABB
+     * Note that this is inclusive of all positions in the AABB!
+     */
+    public static Iterable<BlockPos> getPositionsFromBox(Box box)
+    {
+        return StationBlockPos.stream(box).toList();
+    }
+
+    public static LivingEntity getRandomEntity(World world, LivingEntity toRandomize)
+    {
+        Class<? extends LivingEntity> entClass = toRandomize.getClass();
+
+        if (peacefuls.contains(entClass))
+        {
+            return getNewEntityInstance(CollectionHelper.getRandomListEntry(peacefuls, entClass), world);
+        }
+        else if (mobs.contains(entClass))
+        {
+            LivingEntity ent = getNewEntityInstance(CollectionHelper.getRandomListEntry(mobs, entClass), world);
+            return ent;
+        }
+        else if (world.random.nextInt(2) == 0)
+        {
+            return getNewEntityInstance(SlimeEntity.class, world);
+        }
+        else
+        {
+            return getNewEntityInstance(SheepEntity.class, world);
+        }
+    }
+    public static List<BlockEntity> getTileEntitiesWithinAABB(World world, Box bBox)
+    {
+        List<BlockEntity> list = new ArrayList<>();
+
+        for (BlockPos pos : getPositionsFromBox(bBox))
+        {
+            BlockEntity tile = world.getBlockEntity(pos.x, pos.y, pos.z);
+            if (tile != null)
+            {
+                list.add(tile);
+            }
+        }
+
+        return list;
+    }
+
+    /**
+     * Gravitates an entity, vanilla xp orb style, towards a position
+     * Code adapted from EntityXPOrb and OpenBlocks Vacuum Hopper, mostly the former
+     */
+    public static void gravitateEntityTowards(Entity ent, double x, double y, double z)
+    {
+        double dX = x - ent.x;
+        double dY = y - ent.y;
+        double dZ = z - ent.z;
+        double dist = Math.sqrt(dX * dX + dY * dY + dZ * dZ);
+
+        double vel = 1.0 - dist / 15.0;
+        if (vel > 0.0D)
+        {
+            vel *= vel;
+            ent.velocityX += dX / dist * vel * 0.1;
+            ent.velocityY += dY / dist * vel * 0.2;
+            ent.velocityZ += dZ / dist * vel * 0.1;
+        }
+    }
+
+//    public static void growNearbyRandomly(boolean harvest, World world, BlockPos pos, EntityPlayer player)
+//    {
+//        int chance = harvest ? 16 : 32;
+//
+//        for (BlockPos currentPos : BlockPos.getAllInBox(pos.add(-5, -3, -5), pos.add(5, 3, 5)))
+//        {
+//            IBlockState state = world.getBlockState(currentPos);
+//            Block crop = state.getBlock();
+//
+//            // Vines, leaves, tallgrass, deadbush, doubleplants
+//            if (crop instanceof IShearable)
+//            {
+//                if (harvest)
+//                {
+//                    world.destroyBlock(currentPos, true);
+//                }
+//            }
+//            // Carrot, cocoa, wheat, grass (creates flowers and tall grass in vicinity),
+//            // Mushroom, potato, sapling, stems, tallgrass
+//            else if (crop instanceof IGrowable)
+//            {
+//                IGrowable growable = ((IGrowable) crop);
+//                if (!growable.canGrow(world, currentPos, state, false))
+//                {
+//                    if (harvest
+//                                && crop != Blocks.MELON_STEM && crop != Blocks.PUMPKIN_STEM
+//                                && (player == null || PlayerHelper.hasBreakPermission(((EntityPlayerMP) player), currentPos)))
+//                    {
+//                        world.destroyBlock(currentPos, true);
+//                    }
+//                }
+//                else if (world.rand.nextInt(chance) == 0)
+//                {
+//                    if (ProjectEConfig.items.harvBandGrass || !crop.getTranslationKey().toLowerCase(Locale.ROOT).contains("grass"))
+//                    {
+//                        growable.grow(world, world.rand, currentPos, state);
+//                    }
+//                }
+//            }
+//            // All modded
+//            // Cactus, Reeds, Netherwart, Flower
+//            else if (crop instanceof IPlantable)
+//            {
+//                if (world.rand.nextInt(chance / 4) == 0)
+//                {
+//                    for (int i = 0; i < (harvest ? 8 : 4); i++)
+//                    {
+//                        crop.updateTick(world, currentPos, state, world.rand);
+//                    }
+//                }
+//
+//                if (harvest)
+//                {
+//                    if (crop instanceof BlockFlower)
+//                    {
+//                        if (player == null || PlayerHelper.hasBreakPermission(((EntityPlayerMP) player), currentPos))
+//                        {
+//                            world.destroyBlock(currentPos, true);
+//                        }
+//                    }
+//                    if (crop == Blocks.REEDS || crop == Blocks.CACTUS)
+//                    {
+//                        boolean shouldHarvest = true;
+//
+//                        for (int i = 1; i < 3; i++)
+//                        {
+//                            if (world.getBlockState(currentPos.up(i)).getBlock() != crop)
+//                            {
+//                                shouldHarvest = false;
+//                                break;
+//                            }
+//                        }
+//
+//                        if (shouldHarvest)
+//                        {
+//                            for (int i = crop == Blocks.REEDS ? 1 : 0; i < 3; i++)
+//                            {
+//                                if (player != null && PlayerHelper.hasBreakPermission(((EntityPlayerMP) player), currentPos.up(i)))
+//                                {
+//                                    world.destroyBlock(currentPos.up(i), true);
+//                                } else if (player == null)
+//                                {
+//                                    world.destroyBlock(currentPos.up(i), true);
+//                                }
+//                            }
+//                        }
+//                    }
+//                    if (crop == Blocks.NETHER_WART)
+//                    {
+//                        int age = state.getValue(BlockNetherWart.AGE);
+//                        if (age == 3)
+//                        {
+//                            if (player == null || player != null && PlayerHelper.hasBreakPermission(((EntityPlayerMP) player), currentPos))
+//                            {
+//                                world.destroyBlock(currentPos, true);
+//                            }
+//                        }
+//                    }
+//                }
+//
+//            }
+//        }
+//    }
+
+    /**
+     * Recursively mines out a vein of the given Block, starting from the provided coordinates
+     */
+    public static int harvestVein(World world, PlayerEntity player, ItemStack stack, BlockPos pos, BlockState target, List<ItemStack> currentDrops, int numMined)
+    {
+        if (numMined >= Constants.MAX_VEIN_SIZE)
+        {
+            return numMined;
+        }
+
+        Box b = Box.create(pos.getX() - 1, pos.getY() - 1, pos.getZ() - 1, pos.getX() + 1, pos.getY() + 1, pos.getZ() + 1);
+
+        for (BlockPos currentPos : getPositionsFromBox(b))
+        {
+            BlockState currentState = world.getBlockState(currentPos);
+            Block block = currentState.getBlock();
+
+            if (currentState == target || (target == Block.LIT_REDSTONE_ORE.getDefaultState() && block == Block.REDSTONE_ORE))
+            {
+                numMined++;
+                currentDrops.addAll(getBlockDrops(world, player, currentState, stack, currentPos));
+                world.setBlock(currentPos.x, currentPos.y, currentPos.z, 0);
+                numMined = harvestVein(world, player, stack, currentPos, target, currentDrops, numMined);
+                if (numMined >= Constants.MAX_VEIN_SIZE) {
+                    break;
+                }
+            }
+        }
+        return numMined;
+    }
+
+    public static void igniteNearby(World world, PlayerEntity player)
+    {
+        for (BlockPos pos : StationBlockPos.stream(new BlockPos((int) player.x, (int) player.y, (int) player.z).add(-8, -5, -8), new BlockPos((int) player.x, (int) player.y, (int) player.z).add(8, 5, 8)).toList())
+        {
+            if (world.random.nextInt(128) == 0 && world.isAir(pos.x, pos.y, pos.z))
+            {
+                // TODO: check if this works
+                world.setBlockState(pos.toImmutable(), Block.FIRE.getDefaultState());
+            }
+        }
+    }
+
+    /**
+     * Repels projectiles and mobs in the given AABB away from a given point
+     */
+    public static void repelEntitiesInAABBFromPoint(World world, Box effectBounds, double x, double y, double z, boolean isSWRG)
+    {
+        List<Entity> list = world.collectEntitiesByClass(Entity.class, effectBounds);
+
+        for (Entity ent : list)
+        {
+            if ((isSWRG && !swrgBlacklist.contains(ent.getClass()))
+                        || (!isSWRG && !interdictionBlacklist.contains(ent.getClass()))) {
+                if ((ent instanceof LivingEntity) || (ent instanceof ArrowEntity))
+                {
+                    if (!isSWRG && Config.EFFECT_CONFIG.interdictionMode && !(ent instanceof MobEntity || ent instanceof ArrowEntity))
+                    {
+                        continue;
+                    }
+                    else
+                    {
+                        if (ent instanceof ArrowEntity arrowEntity && arrowEntity.onGround)
+                        {
+                            continue;
+                        }
+                        Vec3d p = Vec3d.create(x, y, z);
+                        Vec3d t = Vec3d.create(ent.x, ent.y, ent.z);
+                        double distance = p.distanceTo(t) + 0.1D;
+
+                        Vec3d r = Vec3d.create(t.x - p.x, t.y - p.y, t.z - p.z);
+
+                        ent.velocityX += r.x / 1.5D / distance;
+                        ent.velocityY += r.y / 1.5D / distance;
+                        ent.velocityZ += r.z / 1.5D / distance;
+                    }
+                }
+            }
+        }
+    }
+
 }

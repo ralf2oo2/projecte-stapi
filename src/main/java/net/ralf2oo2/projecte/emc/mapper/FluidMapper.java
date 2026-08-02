@@ -16,6 +16,7 @@ import net.ralf2oo2.projecte.emc.collector.ExtendedMappingCollector;
 import net.ralf2oo2.projecte.emc.collector.MappingCollector;
 import net.ralf2oo2.projecte.emc.json.*;
 import org.apache.commons.lang3.tuple.Pair;
+import org.apache.commons.math3.fraction.BigFraction;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -87,7 +88,7 @@ public class FluidMapper implements EMCMapper<NormalizedSimpleStack, Long> {
 
     @Override
     public void addMappings(MappingCollector<NormalizedSimpleStack, Long> mapper, CommentedConfig config) {
-        mapper.setValueBefore(NSSFluid.create(Fluids.WATER), Long.MIN_VALUE);
+        mapper.addConversion(1000, NSSFluid.create(Fluids.WATER), Collections.singletonList(NSSItem.create(Block.ICE)));
 
         // 2. 1000 mB Lava = 1 Obsidian Block
         mapper.addConversion(1000, NSSFluid.create(Fluids.LAVA), Collections.singletonList(NSSItem.create(Block.OBSIDIAN)));
