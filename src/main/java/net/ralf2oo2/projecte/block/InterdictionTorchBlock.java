@@ -39,7 +39,7 @@ public class InterdictionTorchBlock extends TemplateBlockWithEntity {
         if (facing.getAxis().isHorizontal())
         {
             Direction opposite = facing.getOpposite();
-            world.addParticle("smoke", d0 + d4 * (double)opposite.getOffsetZ(), d1 + d3, d2 + d4 * (double)opposite.getOffsetZ(), 0.0D, 0.0D, 0.0D);
+            world.addParticle("smoke", d0 + d4 * (double)opposite.getOffsetX(), d1 + d3, d2 + d4 * (double)opposite.getOffsetZ(), 0.0D, 0.0D, 0.0D);
         }
         else
         {
@@ -89,6 +89,25 @@ public class InterdictionTorchBlock extends TemplateBlockWithEntity {
         }
 
         return this.getDefaultState();
+    }
+
+    private boolean canPlaceOn(World world, int x, int y, int z) {
+        return world.shouldSuffocate(x, y, z) || world.getBlockId(x, y, z) == Block.FENCE.id;
+    }
+
+    @Override
+    public boolean canPlaceAt(World world, int x, int y, int z) {
+        if (world.shouldSuffocate(x - 1, y, z)) {
+            return true;
+        } else if (world.shouldSuffocate(x + 1, y, z)) {
+            return true;
+        } else if (world.shouldSuffocate(x, y, z - 1)) {
+            return true;
+        } else if (world.shouldSuffocate(x, y, z + 1)) {
+            return true;
+        } else {
+            return this.canPlaceOn(world, x, y - 1, z);
+        }
     }
 
     public boolean breakIfCannotPlaceAt(World world, BlockPos pos, BlockState state) {
