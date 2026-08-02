@@ -2,12 +2,14 @@ package net.ralf2oo2.projecte.block.entity;
 
 import net.danygames2014.nyalib.capability.CapabilityHelper;
 import net.danygames2014.nyalib.capability.block.itemhandler.ItemHandlerBlockCapability;
+import net.danygames2014.nyalib.item.block.ItemHandler;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.block.Block;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.DispenserBlockEntity;
 import net.minecraft.inventory.Inventory;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.modificationstation.stationapi.api.recipe.FuelRegistry;
@@ -21,15 +23,17 @@ import net.ralf2oo2.projecte.api.item.ItemEmc;
 import net.ralf2oo2.projecte.block.MatterFurnaceBlock;
 import net.ralf2oo2.projecte.inventory.SimpleInventory;
 import net.ralf2oo2.projecte.screen.handler.RedMatterFurnaceScreenHandler;
+import net.ralf2oo2.projecte.screen.slot.SlotPredicates;
 import net.ralf2oo2.projecte.util.InventoryHelper;
 import net.ralf2oo2.projecte.util.ItemHelper;
 import net.ralf2oo2.projecte.util.StackUtil;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class RedMatterFurnaceBlockEntity extends EmcBlockEntity implements EmcAcceptor {
+public class RedMatterFurnaceBlockEntity extends EmcBlockEntity implements EmcAcceptor, ItemHandler {
     private static final long EMC_CONSUMPTION = 2;
     private final Inventory inputInventory = new SimpleInventory("input", getInvSize());
     private final Inventory outputInventory = new SimpleInventory("output", getInvSize());
@@ -102,7 +106,7 @@ public class RedMatterFurnaceBlockEntity extends EmcBlockEntity implements EmcAc
 
         if (!this.world.isRemote)
         {
-            pullFromInventories();
+//            pullFromInventories();
             ItemHelper.compactInventory(inputInventory);
 
             if (canSmelt() && !StackUtil.isEmpty(getFuelItem()) && getFuelItem().getItem() instanceof ItemEmc itemEmc)
@@ -331,5 +335,247 @@ public class RedMatterFurnaceBlockEntity extends EmcBlockEntity implements EmcAc
             return accept;
         }
         return 0;
+    }
+
+    // ItemHandler
+    @Override
+    public boolean canInsertItem(@Nullable Direction side) {
+        return side != Direction.DOWN;
+    }
+
+    @Override
+    public boolean canExtractItem(@Nullable Direction side) {
+        return side != Direction.UP;
+    }
+
+    @Override
+    public boolean canConnectItem(Direction side) {
+        return true;
+    }
+
+    @Override
+    public int getItemSlots(@Nullable Direction side) {
+        if (side == null) {
+            return inputInventory.size() + fuelInv.size() + outputInventory.size();
+        }
+        if (side == Direction.UP) {
+            return inputInventory.size();
+        }
+        if (side == Direction.DOWN) {
+            return outputInventory.size();
+        }
+        return fuelInv.size() + outputInventory.size();
+    }
+
+    private Inventory getTargetInventoryForSlot(int slot, @Nullable Direction side) {
+        if (side == null) {
+            if (slot < inputInventory.size()) return inputInventory;
+            if (slot < inputInventory.size() + fuelInv.size()) return fuelInv;
+            return outputInventory;
+        }
+        if (side == Direction.UP) {
+            return inputInventory;
+        }
+        if (side == Direction.DOWN) {
+            return outputInventory;
+        }
+
+        if (slot < fuelInv.size()) {
+            return fuelInv;
+        }
+        return outputInventory;
+    }
+
+    private int getInternalSlotIndex(int slot, @Nullable Direction side) {
+        if (side == null) {
+            if (slot < inputInventory.size()) return slot;
+            if (slot < inputInventory.size() + fuelInv.size()) return slot - inputInventory.size();
+            return slot - inputInventory.size() - fuelInv.size();
+        }
+        if (side == Direction.UP || side == Direction.DOWN) {
+            return slot;
+        }
+
+        if (slot < fuelInv.size()) {
+            return slot;
+        }
+        return slot - fuelInv.size();
+    }
+
+    @Override
+    public ItemStack insertItem(ItemStack stack, int slot, @Nullable Direction side) {
+        if (StackUtil.isEmpty(stack) || !canInsertItem(side)) {
+            return stack;
+        }
+
+        Inventory targetInv = getTargetInventoryForSlot(slot, side);
+        int targetSlot = getInternalSlotIndex(slot, side);
+
+        if (targetInv == inputInventory && !SlotPredicates.SMELTABLE.test(stack)) {
+            return stack;
+        }
+        if (targetInv == fuelInv && !SlotPredicates.FURNACE_FUEL.test(stack)) {
+            return stack;
+        }
+        if (targetInv == outputInventory) {
+            return stack;
+        }
+
+        ItemStack currentSlotStack = targetInv.getStack(targetSlot);
+
+        if (StackUtil.isEmpty(currentSlotStack)) {
+            targetInv.setStack(targetSlot, stack.copy());
+            targetInv.markDirty();
+            return null;
+        } else if (ItemHelper.areItemStacksEqual(currentSlotStack, stack)) {
+            int max = Math.min(stack.getMaxCount(), targetInv.getMaxCountPerStack());
+            int space = max - currentSlotStack.count;
+
+            if (space <= 0) {
+                return stack;
+            }
+
+            int toInsert = Math.min(stack.count, space);
+            currentSlotStack.count += toInsert;
+            targetInv.markDirty();
+
+            if (stack.count - toInsert <= 0) {
+                return null;
+            } else {
+                ItemStack remainder = stack.copy();
+                remainder.count -= toInsert;
+                return remainder;
+            }
+        }
+
+        return stack;
+    }
+
+    @Override
+    public ItemStack insertItem(ItemStack stack, @Nullable Direction side) {
+        if (StackUtil.isEmpty(stack) || !canInsertItem(side)) {
+            return stack;
+        }
+
+        ItemStack remainder = stack.copy();
+        int slots = getItemSlots(side);
+
+        for (int i = 0; i < slots; i++) {
+            remainder = insertItem(remainder, i, side);
+            if (StackUtil.isEmpty(remainder)) {
+                return null;
+            }
+        }
+
+        return remainder;
+    }
+
+    @Override
+    public ItemStack extractItem(int slot, int amount, @Nullable Direction side) {
+        if (!canExtractItem(side)) {
+            return null;
+        }
+
+        Inventory targetInv = getTargetInventoryForSlot(slot, side);
+        int targetSlot = getInternalSlotIndex(slot, side);
+
+        if (targetInv != outputInventory) {
+            return null;
+        }
+
+        ItemStack stack = targetInv.getStack(targetSlot);
+        if (StackUtil.isEmpty(stack)) {
+            return null;
+        }
+
+        int extractAmount = Math.min(amount, stack.count);
+        ItemStack extracted = stack.copy();
+        extracted.count = extractAmount;
+
+        stack.count -= extractAmount;
+        if (stack.count <= 0) {
+            targetInv.setStack(targetSlot, null);
+        } else {
+            targetInv.markDirty();
+        }
+
+        return extracted;
+    }
+
+    @Override
+    public ItemStack getItem(int slot, @Nullable Direction side) {
+        Inventory targetInv = getTargetInventoryForSlot(slot, side);
+        int targetSlot = getInternalSlotIndex(slot, side);
+
+        if (side != null && !side.getAxis().isVertical() && targetInv == fuelInv) {
+            return null;
+        }
+
+        if (targetSlot >= 0 && targetSlot < targetInv.size()) {
+            return targetInv.getStack(targetSlot);
+        }
+        return null;
+    }
+
+    @Override
+    public boolean setItem(ItemStack stack, int slot, @Nullable Direction side) {
+        Inventory targetInv = getTargetInventoryForSlot(slot, side);
+        int targetSlot = getInternalSlotIndex(slot, side);
+
+        if (targetSlot >= 0 && targetSlot < targetInv.size()) {
+            targetInv.setStack(targetSlot, stack);
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public ItemStack[] getInventory(@Nullable Direction side) {
+        int slots = getItemSlots(side);
+        ItemStack[] inv = new ItemStack[slots];
+        for (int i = 0; i < slots; i++) {
+            inv[i] = getItem(i, side);
+        }
+        return inv;
+    }
+
+    // Temporary override until dany fixes bug
+    @Override
+    public ItemStack extractItem(Item item, int meta, int amount, @Nullable Direction side) {
+        ItemStack currentStack = null;
+        int remaining = amount;
+
+        for (int i = 0; i < getItemSlots(side); i++) {
+            if (remaining <= 0) {
+                break;
+            }
+
+            ItemStack slotStack = getItem(i, side);
+            if (StackUtil.isEmpty(slotStack)) {
+                continue;
+            }
+
+            if (currentStack != null) {
+                if (slotStack.isItemEqual(currentStack)) {
+                    ItemStack extractedStack = extractItem(i, remaining, side);
+
+                    if (!StackUtil.isEmpty(extractedStack)) {
+                        remaining -= extractedStack.count;
+                        currentStack.count += extractedStack.count;
+                    }
+                }
+            } else {
+                if (slotStack.isOf(item) && (meta == -1 || slotStack.getDamage() == meta)) {
+                    ItemStack extractedStack = extractItem(i, remaining, side);
+
+                    if (!StackUtil.isEmpty(extractedStack)) {
+                        remaining -= extractedStack.count;
+                        currentStack = extractedStack;
+                    }
+                }
+            }
+        }
+
+        return currentStack;
     }
 }
