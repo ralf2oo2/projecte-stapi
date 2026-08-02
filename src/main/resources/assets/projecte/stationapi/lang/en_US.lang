@@ -36,6 +36,8 @@ item.projecte.high_covalence_dust.name=High Covalence Dust
 item.projecte.red_matter.name=Red Matter
 item.projecte.dark_matter.name=Dark Matter
 
+item.projecte.philosophers_stone.name=Philosopher's Stone
+
 tile.projecte.alchemical_chest.name=Alchemical Chest
 tile.projecte.energy_condenser.name=Energy Condenser
 tile.projecte.energy_condenser_mk2.name=Energy Condenser MK2
