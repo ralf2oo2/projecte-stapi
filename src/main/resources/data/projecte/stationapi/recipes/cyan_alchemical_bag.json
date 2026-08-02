@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "CCC",
+    "WAW",
+    "WWW"
+  ],
+  "key": {
+    "A": {
+      "item": "projecte:alchemical_chest"
+    },
+    "C": {
+      "item": "projecte:high_covalence_dust"
+    },
+    "W": {
+      "item": "minecraft:wool",
+      "damage": 9
+    }
+  },
+  "result": {
+    "item": "projecte:cyan_alchemical_bag"
+  }
+}

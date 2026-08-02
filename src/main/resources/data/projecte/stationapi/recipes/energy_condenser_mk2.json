@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "RDR",
+    "DCD",
+    "RDR"
+  ],
+  "key": {
+    "R": {
+      "item": "projecte:red_matter_block"
+    },
+    "C": {
+      "item": "projecte:energy_condenser"
+    },
+    "D": {
+      "item": "projecte:dark_matter_block"
+    }
+  },
+  "result": {
+    "item": "projecte:energy_condenser_mk2"
+  }
+}

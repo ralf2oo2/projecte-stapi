@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "RDR",
+    "DPD",
+    "GGG"
+  ],
+  "key": {
+    "R": {
+      "item": "minecraft:redstone_torch_lit"
+    },
+    "G": {
+      "tag": "c:dusts/glowstone"
+    },
+    "D": {
+      "tag": "c:gems/diamond"
+    },
+    "P": {
+      "item": "projecte:philosophers_stone"
+    }
+  },
+  "result": {
+    "item": "projecte:interdiction_torch"
+  }
+}

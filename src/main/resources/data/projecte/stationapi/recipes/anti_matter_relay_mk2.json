@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "OUO",
+    "OPO",
+    "OOO"
+  ],
+  "key": {
+    "O": {
+      "tag": "c:obsidians"
+    },
+    "P": {
+      "item": "projecte:anti_matter_relay_mk1"
+    },
+    "U": {
+      "item": "projecte:dark_matter"
+    }
+  },
+  "result": {
+    "item": "projecte:anti_matter_relay_mk2"
+  }
+}

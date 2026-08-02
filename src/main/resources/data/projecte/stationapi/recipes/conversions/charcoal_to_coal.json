@@ -1,0 +1,27 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "projecte:philosophers_stone"
+    },
+    {
+      "item": "minecraft:coal",
+      "damage": 1
+    },
+    {
+      "item": "minecraft:coal",
+      "damage": 1
+    },
+    {
+      "item": "minecraft:coal",
+      "damage": 1
+    },
+    {
+      "item": "minecraft:coal",
+      "damage": 1
+    }
+  ],
+  "result": {
+    "item": "minecraft:coal"
+  }
+}

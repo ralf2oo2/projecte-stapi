@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "tag": "projecte:alchemical_bags"
+    },
+    {
+      "item": "minecraft:dye"
+    }
+  ],
+  "result": {
+    "item": "projecte:black_alchemical_bag"
+  }
+}
