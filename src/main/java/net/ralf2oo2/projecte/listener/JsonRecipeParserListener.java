@@ -2,11 +2,13 @@ package net.ralf2oo2.projecte.listener;
 
 import com.google.gson.Gson;
 import net.mine_diver.unsafeevents.listener.EventListener;
+import net.minecraft.recipe.CraftingRecipeManager;
 import net.modificationstation.stationapi.api.event.registry.JsonRecipeParserRegistryEvent;
 import net.modificationstation.stationapi.api.item.json.JsonItemKey;
 import net.modificationstation.stationapi.api.recipe.CraftingRegistry;
 import net.modificationstation.stationapi.impl.recipe.JsonCraftingShapeless;
 import net.ralf2oo2.projecte.ProjectE;
+import net.ralf2oo2.projecte.recipe.PhilosopherStoneSmeltingRecipe;
 import net.ralf2oo2.projecte.util.CraftingRegistryHelper;
 
 import java.io.BufferedReader;
@@ -17,10 +19,14 @@ import java.util.function.Function;
 
 public class JsonRecipeParserListener {
 
+    private static boolean registeredPhiloSmeltingRecipe = false;
+
     @EventListener
     public void registerJsonRecipeParsers(JsonRecipeParserRegistryEvent event) {
         event.register(ProjectE.NAMESPACE)
-                    .accept("crafting_shapeless_kleinstar", JsonRecipeParserListener::parseKleinStarRecipes);
+                    .accept("crafting_shapeless_kleinstar", JsonRecipeParserListener::parseKleinStarRecipes)
+                    .accept("philosopher_stone_smelting", JsonRecipeParserListener::parsePhilosopherStoneSmelting);
+
     }
 
     private static void parseKleinStarRecipes(URL recipe) {
@@ -38,6 +44,13 @@ public class JsonRecipeParserListener {
             CraftingRegistryHelper.addKleinStarShapelessRecipe(json.getResult().getItemStack(), stacks);
         } catch (NullPointerException e) {
             throw new RuntimeException("Recipe: " + recipe, e);
+        }
+    }
+
+    private static void parsePhilosopherStoneSmelting(URL recipe) {
+        if(!registeredPhiloSmeltingRecipe) {
+            CraftingRecipeManager.getInstance().getRecipes().add(new PhilosopherStoneSmeltingRecipe());
+            registeredPhiloSmeltingRecipe = true;
         }
     }
 }
