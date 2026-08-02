@@ -29,6 +29,13 @@ item.projecte.alchemical_coal.name=Alchemical Coal
 item.projecte.mobius_fuel.name=Mobius Fuel
 item.projecte.aeternalis_fuel.name=Aeternalis Fuel
 
+item.projecte.low_covalence_dust.name=Low Covalence Dust
+item.projecte.medium_covalence_dust.name=Medium Covalence Dust
+item.projecte.high_covalence_dust.name=High Covalence Dust
+
+item.projecte.red_matter.name=Red Matter
+item.projecte.dark_matter.name=Dark Matter
+
 tile.projecte.alchemical_chest.name=Alchemical Chest
 tile.projecte.energy_condenser.name=Energy Condenser
 tile.projecte.energy_condenser_mk2.name=Energy Condenser MK2
@@ -49,6 +56,9 @@ tile.projecte.nova_cataclysm.name=Nova Cataclysm
 
 tile.projecte.red_matter_furnace.name=Red Matter Furnace
 tile.projecte.dark_matter_furnace.name=Dark Matter Furnace
+
+tile.projecte.dark_matter_block.name=Dark Matter Block
+tile.projecte.red_matter_block.name=Red Matter Block
 
 tile.projecte.interdiction_torch.name=Interdiction Torch
 

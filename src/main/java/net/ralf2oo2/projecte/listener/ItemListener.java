@@ -3,6 +3,7 @@ package net.ralf2oo2.projecte.listener;
 import net.mine_diver.unsafeevents.listener.EventListener;
 import net.minecraft.item.Item;
 import net.modificationstation.stationapi.api.event.registry.ItemRegistryEvent;
+import net.modificationstation.stationapi.api.template.item.TemplateItem;
 import net.modificationstation.stationapi.api.vanillafix.util.DyeColor;
 import net.ralf2oo2.projecte.ProjectE;
 import net.ralf2oo2.projecte.item.*;
@@ -16,8 +17,11 @@ public class ItemListener {
     public static Item alchemicalCoal;
     public static Item mobiusFuel;
     public static Item aeternalisFuel;
-    public static Item covalence;
-    public static Item matter;
+    public static Item lowCovalenceDust;
+    public static Item mediumCovalenceDust;
+    public static Item highCovalenceDust;
+    public static Item redMatter;
+    public static Item darkMatter;
 
     public static Item dmPick;
     public static Item dmAxe;
@@ -111,5 +115,11 @@ public class ItemListener {
             KleinStarItem.Tier tier = KleinStarItem.Tier.values()[i];
             kleinStars[i] = new KleinStarItem(ProjectE.NAMESPACE.id("klein_star_" + tier.name), tier);
         }
+
+        redMatter = new TemplateItem(ProjectE.NAMESPACE.id("red_matter"));
+        darkMatter = new TemplateItem(ProjectE.NAMESPACE.id("dark_matter"));
+        lowCovalenceDust = new TemplateItem(ProjectE.NAMESPACE.id("low_covalence_dust"));
+        mediumCovalenceDust = new TemplateItem(ProjectE.NAMESPACE.id("medium_covalence_dust"));
+        highCovalenceDust = new TemplateItem(ProjectE.NAMESPACE.id("high_covalence_dust"));
     }
 }

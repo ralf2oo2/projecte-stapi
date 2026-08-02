@@ -15,7 +15,8 @@ public class BlockListener {
     public static Block redMatterFurnace;
     public static Block darkMatterFurnace;
     public static Block dmPedestal;
-    public static Block matterBlock;
+    public static Block redMatterBlock;
+    public static Block darkMatterBlock;
     public static Block alchemicalCoalBlock;
     public static Block mobiusFuelBlock;
     public static Block aeternalisFuelBlock;
@@ -35,6 +36,9 @@ public class BlockListener {
         transmuteStone = new TransmutationTableBlock(ProjectE.NAMESPACE.id("transmutation_table"));
         condenser = new EnergyCondenserBlock(ProjectE.NAMESPACE.id("energy_condenser"));
         condenserMk2 = new EnergyCondenserMK2Block(ProjectE.NAMESPACE.id("energy_condenser_mk2"));
+
+        redMatterBlock = new MatterBlock(ProjectE.NAMESPACE.id("red_matter_block"), true);
+        darkMatterBlock = new MatterBlock(ProjectE.NAMESPACE.id("dark_matter_block"), true);
 
         alchemicalCoalBlock = new FuelBlock(ProjectE.NAMESPACE.id("alchemical_coal_block"));
         mobiusFuelBlock = new FuelBlock(ProjectE.NAMESPACE.id("mobius_fuel_block"));
