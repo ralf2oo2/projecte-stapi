@@ -9,6 +9,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.ralf2oo2.projecte.item.ProjectEItem;
 import net.ralf2oo2.projecte.listener.ItemListener;
+import net.ralf2oo2.projecte.util.LivingEntityHelper;
 
 public class SWRGProjectileEntity extends ProjectEProjectile{
 
@@ -90,7 +91,7 @@ public class SWRGProjectileEntity extends ProjectEProjectile{
                     // Fake onGround before knockBack so you can re-launch mobs that have already been launched
                     boolean oldOnGround = hit.entity.onGround;
                     hit.entity.onGround = true;
-                    ((LivingEntity) hit.entity).applyKnockback(null, 5, -velocityX * 0.25, -velocityZ * 0.25);
+                    LivingEntityHelper.applyKnockback((LivingEntity) hit.entity, 5, -velocityX * 0.25, -velocityZ * 0.25);
                     hit.entity.onGround = oldOnGround;
                     hit.entity.velocityY *= 3;
                 }
@@ -110,5 +111,10 @@ public class SWRGProjectileEntity extends ProjectEProjectile{
     public void writeNbt(NbtCompound nbt) {
         super.writeNbt(nbt);
         nbt.putBoolean("fromArcana", fromArcana);
+    }
+
+    @Override
+    public String getTexture() {
+        return "/assets/projecte/stationapi/textures/entity/lightning.png";
     }
 }

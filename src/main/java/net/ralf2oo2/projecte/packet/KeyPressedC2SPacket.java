@@ -1,5 +1,6 @@
 package net.ralf2oo2.projecte.packet;
 
+import net.danygames2014.nyalib.capability.CapabilityHelper;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.NetworkHandler;
@@ -10,6 +11,8 @@ import net.modificationstation.stationapi.api.network.packet.PacketType;
 import net.ralf2oo2.projecte.api.item.ExtraFunction;
 import net.ralf2oo2.projecte.api.item.ItemCharge;
 import net.ralf2oo2.projecte.api.item.ModeChanger;
+import net.ralf2oo2.projecte.api.item.ProjectileShooter;
+import net.ralf2oo2.projecte.capability.InternalAbilitiesEntityCapability;
 import net.ralf2oo2.projecte.config.Config;
 import net.ralf2oo2.projecte.util.ProjectEKeybind;
 import net.ralf2oo2.projecte.util.StackUtil;
@@ -73,6 +76,11 @@ public class KeyPressedC2SPacket extends Packet implements ManagedPacket<KeyPres
             }
             case FIRE_PROJECTILE -> {
                 // TODO: implement case
+                InternalAbilitiesEntityCapability capability = CapabilityHelper.getCapability(player, InternalAbilitiesEntityCapability.class);
+                if(!StackUtil.isEmpty(stack) && stack.getItem() instanceof ProjectileShooter && capability != null && capability.getProjectileCooldown() <= 0 && ((ProjectileShooter)stack.getItem()).shootProjectile(player, stack)) {
+                    capability.resetProjectileCooldown();
+                    return;
+                }
             }
             case MODE -> {
                 if(!StackUtil.isEmpty(stack) && stack.getItem() instanceof ModeChanger modeChanger && modeChanger.changeMode(player, stack)) {

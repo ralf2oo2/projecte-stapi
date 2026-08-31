@@ -5,6 +5,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.NbtCompound;
 import net.ralf2oo2.projecte.api.capability.AlchemicalBagEntityCapability;
 import net.ralf2oo2.projecte.api.capability.KnowledgeEntityCapability;
+import net.ralf2oo2.projecte.capability.InternalAbilitiesEntityCapability;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -56,6 +57,15 @@ public class PlayerEntityMixin {
             if(capability != null) {
                 capability.readNbt(nbt.getCompound("ProjectE_Alchemical"));
             }
+        }
+    }
+
+    @Inject(method = "tick", at = @At("TAIL"))
+    public void projecte_tick(CallbackInfo ci) {
+        InternalAbilitiesEntityCapability capability = CapabilityHelper.getCapability((PlayerEntity) (Object) this, InternalAbilitiesEntityCapability.class);
+
+        if(capability != null) {
+            capability.tick();
         }
     }
 }

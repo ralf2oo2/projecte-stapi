@@ -21,9 +21,9 @@ public class MiscelaniousConfig {
     @ConfigEntry(name = "Unsafe keybinds", description = "False requires your hand be empty for Gem Armor Offensive Abilities to be readied or triggered")
     public Boolean unsafeKeyBinds = false;
 
-    @ConfigEntry(name = "Projectile cooldown", description = "A cooldown (in ticks) for firing projectiles", minValue = 0)
+    @ConfigEntry(name = "Projectile cooldown", description = "A cooldown (in ticks) for firing projectiles", minValue = 0, multiplayerSynced = true)
     public Integer projectileCooldown = 0;
 
-    @ConfigEntry(name = "Gem chestplate cooldown", description = "A cooldown (in ticks) for Gem Chestplate explosion", minValue = 0)
+    @ConfigEntry(name = "Gem chestplate cooldown", description = "A cooldown (in ticks) for Gem Chestplate explosion", minValue = 0, multiplayerSynced = true)
     public Integer gemChestCooldown = 0;
 }

@@ -189,10 +189,6 @@ public abstract class ProjectEProjectile extends Entity {
             if (hitResult.entity != null && hitResult.entity.damage(this.owner, 0)) {
             }
 
-            for(int i = 0; i < 8; ++i) {
-                this.world.addParticle("snowballpoof", this.x, this.y, this.z, 0.0F, 0.0F, 0.0F);
-            }
-
             this.markDead();
         }
 
@@ -220,7 +216,7 @@ public abstract class ProjectEProjectile extends Entity {
         this.pitch = this.prevPitch + (this.pitch - this.prevPitch) * 0.2F;
         this.yaw = this.prevYaw + (this.yaw - this.prevYaw) * 0.2F;
         float var20 = 0.99F;
-        float var21 = 0.03F;
+        float var21 = this.getGravity();
         if (this.isSubmergedInWater()) {
             for(int var7 = 0; var7 < 4; ++var7) {
                 float var22 = 0.25F;
@@ -285,6 +281,10 @@ public abstract class ProjectEProjectile extends Entity {
         }
     }
 
+    protected float getGravity() {
+        return 0F;
+    }
+
     protected abstract void apply(HitResult hit);
 
     protected final boolean tryConsumeEmc(ProjectEItem consumeFrom, long amount)
@@ -292,5 +292,10 @@ public abstract class ProjectEProjectile extends Entity {
         PlayerEntity player = ((PlayerEntity) getOwner());
         ItemStack found = PlayerHelper.findFirstItem(player, consumeFrom);
         return !StackUtil.isEmpty(found) && ProjectEItem.consumeFuel(player, found, amount, true);
+    }
+
+    @Override
+    public String getTexture() {
+        return "/assets/projecte/stationapi/textures/entity/fireball.png";
     }
 }
