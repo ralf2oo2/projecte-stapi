@@ -7,6 +7,7 @@ import net.modificationstation.stationapi.api.template.item.TemplateItem;
 import net.modificationstation.stationapi.api.vanillafix.util.DyeColor;
 import net.ralf2oo2.projecte.ProjectE;
 import net.ralf2oo2.projecte.item.*;
+import net.ralf2oo2.projecte.item.ring.SWRGItem;
 import net.ralf2oo2.projecte.util.Constants;
 
 public class ItemListener {
@@ -123,5 +124,9 @@ public class ItemListener {
         highCovalenceDust = new TemplateItem(ProjectE.NAMESPACE.id("high_covalence_dust"));
 
         philosStone = new PhilosophersStoneItem(ProjectE.NAMESPACE.id("philosophers_stone"));
+
+        dCatalyst = new DestructionCatalystItem(ProjectE.NAMESPACE.id("destruction_catalyst"));
+
+        swrg = new SWRGItem(ProjectE.NAMESPACE.id("swrg"));
     }
 }

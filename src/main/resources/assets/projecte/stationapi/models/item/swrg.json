@@ -1,0 +1,32 @@
+{
+  "parent": "item/generated",
+  "textures": {
+    "layer0": "projecte:item/fuel/aeternalis_fuel"
+  },
+  "overrides": [
+    {
+      "predicate": {
+        "projecte:mode": 0
+      },
+      "model": "projecte:item/swrg_off"
+    },
+    {
+      "predicate": {
+        "projecte:mode": 1
+      },
+      "model": "projecte:item/swrg_fly"
+    },
+    {
+      "predicate": {
+        "projecte:mode": 2
+      },
+      "model": "projecte:item/swrg_repell"
+    },
+    {
+      "predicate": {
+        "projecte:mode": 3
+      },
+      "model": "projecte:item/swrg_both"
+    }
+  ]
+}

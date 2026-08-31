@@ -11,4 +11,7 @@ public class Config {
 
     @ConfigRoot(value = "effect", visibleName = "Effect")
     public static final EffectConfig EFFECT_CONFIG = new EffectConfig();
+
+    @ConfigRoot(value = "pedestal", visibleName = "Pedestal")
+    public static final PedestalConfig PEDESTAL_CONFIG = new PedestalConfig();
 }

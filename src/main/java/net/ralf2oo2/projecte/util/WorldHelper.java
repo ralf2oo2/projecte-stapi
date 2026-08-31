@@ -1,5 +1,6 @@
 package net.ralf2oo2.projecte.util;
 
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import net.minecraft.block.Block;
 import net.minecraft.block.entity.BlockEntity;
@@ -12,6 +13,7 @@ import net.minecraft.entity.passive.*;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.ArrowEntity;
 import net.minecraft.inventory.Inventory;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
@@ -19,10 +21,12 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import net.modificationstation.stationapi.api.block.BlockState;
 import net.modificationstation.stationapi.api.entity.player.PlayerHelper;
+import net.modificationstation.stationapi.api.item.Items;
 import net.modificationstation.stationapi.api.util.math.Direction;
 import net.modificationstation.stationapi.api.util.math.StationBlockPos;
 import net.ralf2oo2.projecte.ProjectE;
 import net.ralf2oo2.projecte.config.Config;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
 
@@ -217,14 +221,23 @@ public class WorldHelper {
         return ret;
     }
 
+    @NotNull
     public static List<ItemStack> getBlockDrops(World world, PlayerEntity player, BlockState state, ItemStack stack, BlockPos pos)
     {
-//        if (EnchantmentHelper.getEnchantmentLevel(Enchantments.SILK_TOUCH, stack) > 0 && state.getBlock().canSilkHarvest(world, pos, state, player))
-//        {
-//            return Lists.newArrayList(new ItemStack(state.getBlock(), 1, state.getBlock().getMetaFromState(state)));
-//        }
-
-        return state.getBlock().getDropList(world, pos.x, pos.y, pos.z, state, world.getBlockMeta(pos.x, pos.y, pos.z));
+        List<ItemStack> drops = state.getBlock().getDropList(world, pos.x, pos.y, pos.z, state, world.getBlockMeta(pos.x, pos.y, pos.z));
+        if(drops != null) {
+            return drops;
+        }
+        int droppedCount = state.getBlock().getDroppedItemCount(world.random);
+        if(droppedCount <= 0) {
+            return Collections.emptyList();
+        }
+        int meta = world.getBlockMeta(pos.x, pos.y, pos.z);
+        Item item = Item.ITEMS[state.getBlock().getDroppedItemId(meta, world.random)];
+        if(item == null) {
+            return Collections.emptyList();
+        }
+        return List.of(new ItemStack(item, droppedCount, meta));
     }
 
     /**
@@ -289,9 +302,8 @@ public class WorldHelper {
      * Wrapper around BlockPos.getAllInBox() with an AABB
      * Note that this is inclusive of all positions in the AABB!
      */
-    public static Iterable<BlockPos> getPositionsFromBox(Box box)
-    {
-        return StationBlockPos.stream(box).toList();
+    public static List<BlockPos> getPositionsFromBox(Box box) {
+        return StationBlockPos.stream(box).map(BlockPos::toImmutable).toList();
     }
 
     public static LivingEntity getRandomEntity(World world, LivingEntity toRandomize)
