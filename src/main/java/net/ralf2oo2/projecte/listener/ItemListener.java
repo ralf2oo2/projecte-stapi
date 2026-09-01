@@ -126,6 +126,8 @@ public class ItemListener {
         philosStone = new PhilosophersStoneItem(ProjectE.NAMESPACE.id("philosophers_stone"));
 
         dCatalyst = new DestructionCatalystItem(ProjectE.NAMESPACE.id("destruction_catalyst"));
+        hyperLens = new HyperkineticLensItem(ProjectE.NAMESPACE.id("hyperkinetic_lens"));
+        cataliticLens = new CatalyticLensItem(ProjectE.NAMESPACE.id("catalytic_lens"));
 
         swrg = new SWRGItem(ProjectE.NAMESPACE.id("swrg"));
     }

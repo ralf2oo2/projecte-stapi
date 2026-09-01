@@ -145,7 +145,7 @@ public class NovaExplosion extends Explosion {
                 if (drops != null && !drops.isEmpty())
                 {
                     allDrops.addAll(drops);
-                } else if(dropCount > 0) {
+                } else if(dropCount > 0 && itemId > 0) {
                     allDrops.add(new ItemStack(Item.ITEMS[itemId], dropCount, meta));
                 }
 

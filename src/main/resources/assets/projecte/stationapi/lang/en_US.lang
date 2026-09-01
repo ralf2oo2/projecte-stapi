@@ -38,6 +38,10 @@ item.projecte.dark_matter.name=Dark Matter
 
 item.projecte.philosophers_stone.name=Philosopher's Stone
 item.projecte.destruction_catalyst.name=Destruction Catalyst
+item.projecte.hyperkinetic_lens.name=Hyperkinetic Lens
+item.projecte.catalytic_lens.name=Catalytic Lens
+
+item.projecte.swrg.name=Swiftwolf's Rending Gale
 
 tile.projecte.alchemical_chest.name=Alchemical Chest
 tile.projecte.energy_condenser.name=Energy Condenser
