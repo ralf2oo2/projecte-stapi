@@ -14,6 +14,7 @@ import net.modificationstation.stationapi.api.util.math.Direction;
 import net.modificationstation.stationapi.api.util.math.StationBlockPos;
 import net.ralf2oo2.projecte.api.item.ExtraFunction;
 import net.ralf2oo2.projecte.api.item.ProjectileShooter;
+import net.ralf2oo2.projecte.entity.MobRandomizerProjectileEntity;
 import net.ralf2oo2.projecte.util.BoxHelper;
 import net.ralf2oo2.projecte.util.Sounds;
 import net.ralf2oo2.projecte.util.WorldTransmutations;
@@ -66,10 +67,14 @@ public class PhilosophersStoneItem extends ModeItem implements ProjectileShooter
         return false;
     }
 
-    //TODO: implement
     @Override
     public boolean shootProjectile(@NotNull PlayerEntity player, @NotNull ItemStack stack) {
-        return false;
+        World world = player.world;
+        SoundHelper.playSound(player.world, player.x, player.y, player.z, Sounds.TRANSMUTE, 1, 1);
+        MobRandomizerProjectileEntity ent = new MobRandomizerProjectileEntity(world, player);
+        ent.setVelocity(player, player.pitch, player.yaw, 0, 1.5F, 1);
+        world.spawnEntity(ent);
+        return true;
     }
 
     //TODO: implement
