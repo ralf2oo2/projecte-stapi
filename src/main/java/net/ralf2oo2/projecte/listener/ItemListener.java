@@ -130,5 +130,7 @@ public class ItemListener {
         cataliticLens = new CatalyticLensItem(ProjectE.NAMESPACE.id("catalytic_lens"));
 
         swrg = new SWRGItem(ProjectE.NAMESPACE.id("swrg"));
+
+        repairTalisman = new RepairTalismanItem(ProjectE.NAMESPACE.id("repair_talisman"));
     }
 }

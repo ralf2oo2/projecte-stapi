@@ -7,8 +7,12 @@ import net.danygames2014.nyalib.abilities.ability.impl.inventoryprovider.Invento
 import net.danygames2014.nyalib.abilities.ability.value.AbilityValue;
 import net.danygames2014.nyalib.abilities.ability.value.BooleanAbilityValue;
 import net.danygames2014.nyalib.sound.SoundHelper;
+import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.client.resource.language.I18n;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.LightningEntity;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.passive.WolfEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.ItemStack;
@@ -18,6 +22,7 @@ import net.modificationstation.stationapi.api.util.Formatting;
 import net.modificationstation.stationapi.api.util.Identifier;
 import net.ralf2oo2.projecte.api.item.PedestalItem;
 import net.ralf2oo2.projecte.api.item.ProjectileShooter;
+import net.ralf2oo2.projecte.block.entity.DarkMatterPedestalBlockEntity;
 import net.ralf2oo2.projecte.config.Config;
 import net.ralf2oo2.projecte.entity.SWRGProjectileEntity;
 import net.ralf2oo2.projecte.item.FlightProvider;
@@ -164,29 +169,29 @@ public class SWRGItem extends ProjectEItem implements PedestalItem, ProjectileSh
     public void updateInPedestal(@NotNull World world, @NotNull BlockPos pos) {
         if (!world.isRemote && Config.PEDESTAL_CONFIG.swrgPedCooldown != -1)
         {
-//            TileEntity te = world.getTileEntity(pos);
-//            if(!(te instanceof DMPedestalTile))
-//            {
-//                return;
-//            }
-//            DMPedestalTile tile = (DMPedestalTile) te;
-//            if (tile.getActivityCooldown() <= 0)
-//            {
-//                List<EntityLiving> list = world.getEntitiesWithinAABB(EntityLiving.class, tile.getEffectBounds());
-//                for (EntityLiving living : list)
-//                {
-//                    if (living instanceof EntityTameable && ((EntityTameable) living).isTamed())
-//                    {
-//                        continue;
-//                    }
-//                    world.addWeatherEffect(new EntityLightningBolt(world, living.posX, living.posY, living.posZ, false));
-//                }
-//                tile.setActivityCooldown(ProjectEConfig.pedestalCooldown.swrgPedCooldown);
-//            }
-//            else
-//            {
-//                tile.decrementActivityCooldown();
-//            }
+            BlockEntity blockEntity = world.getBlockEntity(pos.getX(), pos.getY(), pos.getZ());
+            if(!(blockEntity instanceof DarkMatterPedestalBlockEntity pedestal))
+            {
+                return;
+            }
+            if (pedestal.getActivityCooldown() <= 0)
+            {
+                List<Object> list = world.collectEntitiesByClass(LivingEntity.class, pedestal.getEffectBounds());
+                for (Object livingObj : list)
+                {
+                    if (livingObj instanceof WolfEntity && ((WolfEntity) livingObj).isTamed() || livingObj instanceof PlayerEntity)
+                    {
+                        continue;
+                    }
+                    LivingEntity living = (LivingEntity) livingObj;
+                    world.spawnEntity(new LightningEntity(world, living.x, living.y, living.z));
+                }
+                pedestal.setActivityCooldown(Config.PEDESTAL_CONFIG.swrgPedCooldown);
+            }
+            else
+            {
+                pedestal.decrementActivityCooldown();
+            }
         }
     }
 

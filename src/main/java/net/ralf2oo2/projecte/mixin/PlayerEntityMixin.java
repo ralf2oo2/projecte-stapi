@@ -6,6 +6,7 @@ import net.minecraft.nbt.NbtCompound;
 import net.ralf2oo2.projecte.api.capability.AlchemicalBagEntityCapability;
 import net.ralf2oo2.projecte.api.capability.KnowledgeEntityCapability;
 import net.ralf2oo2.projecte.capability.InternalAbilitiesEntityCapability;
+import net.ralf2oo2.projecte.capability.InternalTimersEntityCapability;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -62,10 +63,15 @@ public class PlayerEntityMixin {
 
     @Inject(method = "tick", at = @At("TAIL"))
     public void projecte_tick(CallbackInfo ci) {
-        InternalAbilitiesEntityCapability capability = CapabilityHelper.getCapability((PlayerEntity) (Object) this, InternalAbilitiesEntityCapability.class);
+        InternalAbilitiesEntityCapability abilities = CapabilityHelper.getCapability((PlayerEntity) (Object) this, InternalAbilitiesEntityCapability.class);
+        InternalTimersEntityCapability timers = CapabilityHelper.getCapability((PlayerEntity) (Object) this, InternalTimersEntityCapability.class);
 
-        if(capability != null) {
-            capability.tick();
+        if(abilities != null) {
+            abilities.tick();
+        }
+
+        if(timers != null) {
+            timers.tick();
         }
     }
 }
