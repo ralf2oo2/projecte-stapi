@@ -59,5 +59,7 @@ public class BlockListener {
         darkMatterFurnace = new MatterFurnaceBlock(ProjectE.NAMESPACE.id("dark_matter_furnace"), false);
 
         interdictionTorch = new InterdictionTorchBlock(ProjectE.NAMESPACE.id("interdiction_torch"));
+
+        dmPedestal = new DarkMatterPedestalBlock(ProjectE.NAMESPACE.id("dark_matter_pedestal"));
     }
 }
