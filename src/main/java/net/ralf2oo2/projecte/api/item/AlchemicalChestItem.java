@@ -20,5 +20,5 @@ public interface AlchemicalChestItem
      * @param world The World
      * @param stack The ItemStack being ticked
      */
-    void updateInAlchChest(@NotNull World world, @NotNull BlockPos pos, @NotNull ItemStack stack);
+    void updateInAlchChest(@NotNull World world, int x, int y, int z, @NotNull ItemStack stack);
 }

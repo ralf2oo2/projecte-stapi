@@ -109,13 +109,13 @@ public class RepairTalismanItem extends ProjectEItem implements AlchemicalBagIte
     }
 
     @Override
-    public void updateInAlchChest(@NotNull World world, @NotNull BlockPos pos, @NotNull ItemStack stack) {
+    public void updateInAlchChest(@NotNull World world, int x, int y, int z, @NotNull ItemStack stack) {
         if (world.isRemote)
         {
             return;
         }
 
-        BlockEntity te = world.getBlockEntity(pos.getX(), pos.getY(), pos.getZ());
+        BlockEntity te = world.getBlockEntity(x, y, z);
         if (!(te instanceof AlchemicalChestBlockEntity tile))
         {
             return;

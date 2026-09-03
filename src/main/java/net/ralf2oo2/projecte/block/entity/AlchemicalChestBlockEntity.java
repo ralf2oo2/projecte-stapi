@@ -4,11 +4,26 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.Inventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
+import net.ralf2oo2.projecte.api.item.AlchemicalChestItem;
 import net.ralf2oo2.projecte.util.InventoryHelper;
+import net.ralf2oo2.projecte.util.StackUtil;
 
 public class AlchemicalChestBlockEntity extends EmcBlockEntity implements Inventory {
 
     private final ItemStack[] stacks = new ItemStack[104];
+
+
+    @Override
+    public void tick() {
+        for (int i = 0; i < size(); i++)
+        {
+            ItemStack stack = getStack(i);
+            if (!StackUtil.isEmpty(stack) && stack.getItem() instanceof AlchemicalChestItem chestItem)
+            {
+                chestItem.updateInAlchChest(world, x, y, z, stack);
+            }
+        }
+    }
 
     @Override
     public int size() {
